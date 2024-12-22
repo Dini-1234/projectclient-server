@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import Post from "./Post";
 import Search from "./Search";
-import { Link } from "react-router-dom";
-import Delete from "./Delete";
 import './Posts.css'
 import AddItem from "./AddItem";
 import { UserContext } from './context';
 const Posts = () => {
-  const [posts, setPosts] = useState([]); // הפוסטים שנטענו
-  const [page, setPage] = useState(1); // העמוד הנוכחי
-  const [loading, setLoading] = useState(false); // מצב טעינה
-  const [hasMore, setHasMore] = useState(true); // האם יש עוד נתונים לטעון
+  const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const [search, setSearch] = useState('');
   const { user } = useContext(UserContext);
   const [viewMyPosts, setViewMyPosts] = useState(false);
@@ -62,6 +60,7 @@ const Posts = () => {
         search={search}
         setSearch={setSearch}
       />
+
       <button onClick={() => { setViewMyPosts(prev => !prev) }}>view my posts</button>
       <button onClick={() => setSearch("")}>
         נקה חיפוש
@@ -94,7 +93,6 @@ const Posts = () => {
         </div>
       </div>
 
-
       {loading && <p>Loading more posts...</p>}
       {!hasMore && <p>No more posts to load.</p>}
     </div>
@@ -102,87 +100,3 @@ const Posts = () => {
 };
 
 export default Posts;
-
-
-
-// import React, { useState, useEffect } from "react";
-// import Post from "./Post";
-// import Search from "./Search";
-// import { Link } from "react-router-dom";
-// import Delete from "./Delete";
-// import './Posts.css';
-
-// const Posts = () => {
-//   const [posts, setPosts] = useState([]); // הפוסטים שנטענו
-//   const [page, setPage] = useState(1); // העמוד הנוכחי
-//   const [loading, setLoading] = useState(false); // מצב טעינה
-//   const [hasMore, setHasMore] = useState(true); // האם יש עוד נתונים לטעון
-//   const [search, setSearch] = useState(''); // שדה חיפוש
-
-//   useEffect(() => {
-//     fetchPosts(page);
-//   }, [page]);
-
-//   const fetchPosts = async (page) => {
-//     if (loading) return;
-//     setLoading(true);
-//     try {
-//       const response = await fetch(`http://localhost:3010/posts?_page=${page}&_limit=10`);
-//       const data = await response.json();
-
-//       if (data.length === 0) {
-//         setHasMore(false); // אין עוד נתונים
-//       } else {
-//         setPosts((prev) => [...prev, ...data]);
-//       }
-//     } catch (error) {
-//       console.error("Error fetching posts:", error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const handleScroll = () => {
-//     if (
-//       window.innerHeight + document.documentElement.scrollTop >=
-//       document.documentElement.offsetHeight - 100
-//     ) {
-//       if (hasMore && !loading) {
-//         setPage((prev) => prev + 1);
-//       }
-//     }
-//   };
-
-//   useEffect(() => {
-//     window.addEventListener("scroll", handleScroll);
-//     return () => window.removeEventListener("scroll", handleScroll);
-//   }, [hasMore, loading]);
-
-//   const filteredPosts = posts.filter(post =>
-//     post.title.toLowerCase().includes(search.toLowerCase()) ||
-//     post.id.toString().includes(search)
-//   );
-
-//   return (
-//     <div>
-//       <Search
-//         search={search}
-//         setSearch={setSearch}
-//       />
-
-//       {filteredPosts.map((post, index) => (
-//         <Post
-//           post={post}
-//           index={index}
-//           key={post.id}
-//           setPosts={setPosts}
-//         />
-//       ))}
-
-//       {loading && <p>Loading more posts...</p>}
-//       {!hasMore && <p>No more posts to load.</p>}
-//     </div>
-//   );
-// };
-
-// export default Posts;

@@ -4,7 +4,7 @@ import Delete from './Delete';
 import Comments from './Comments';
 
 const Post = (props) => {
-    const { user } = useContext(UserContext);
+    const { user } = useContext(UserContext); //צריך את זה כאן למחיקה, בינתיים בהערה למטה
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(props.post.title);
@@ -70,16 +70,17 @@ const Post = (props) => {
                                 <button onClick={() => setIsEditing(false)}>ביטול</button>
                             </>
                         )}
+
                         <button onClick={() => { setIsModalOpen(prev => !prev) }}>סגור</button>
 
-                        {/* {props.post.userId === user.id && ( */}
-                            <Delete
-                                setMyItem={props.setPosts}
-                                id={props.post.id}
-                                type="posts"
-                            />
+                        {/* {props.post.userId === user.id && ( */} {/* userId-שימי לב - כאן השגיאה ב */}
+                        <Delete
+                            setMyItem={props.setPosts}
+                            id={props.post.id}
+                            type="posts"
+                        />
                         {/* )} */}
-                        
+
                         <Comments postId={props.post.id} />
                     </div>
                 </div>
