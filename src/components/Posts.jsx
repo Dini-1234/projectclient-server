@@ -13,7 +13,8 @@ const Posts = () => {
   const [hasMore, setHasMore] = useState(true); // האם יש עוד נתונים לטעון
   const [search, setSearch] = useState('');
   const { user } = useContext(UserContext);
-  const [viewMyPosts, setViewMyPosts] = useState(false)
+  const [viewMyPosts, setViewMyPosts] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
 
   useEffect(() => {
@@ -61,24 +62,43 @@ const Posts = () => {
         search={search}
         setSearch={setSearch}
       />
-  <button onClick={()=>{setViewMyPosts(prev=>!prev)}}>view my posts</button>
+      <button onClick={() => { setViewMyPosts(prev => !prev) }}>view my posts</button>
       <AddItem
         type="posts"
         setMyItem={setPosts}
       />
 
-      {posts.filter(post =>
-        (post.title.toLowerCase().includes(search.toLowerCase()) ||
-          post.id.toString().includes(search)) &&
-        (!viewMyPosts || post.userId === user.id)
-      ).map((post, index) => (<>
-        <Post post={post}
-          index={index}
-          // key={post.id}
-          setPosts={setPosts}
-        />
-      </>
-      ))}
+      <div className="container">
+        <div className="controls">
+          <button onClick={() => setViewMyPosts(prev => !prev)}>
+            הצג פוסטים שלי
+          </button>
+          <button onClick={() => setSearch("")}>
+            נקה חיפוש
+          </button>
+        </div>
+
+        <div className="posts-list">
+          {posts.filter(post =>
+            (post.title.toLowerCase().includes(search.toLowerCase()) ||
+              post.id.toString().includes(search)) &&
+            (!viewMyPosts || post.userId === user.id)
+          ).map(post => (
+            <div key={post.id} className="post" onClick={() => setSelectedPost(post)}>
+              <h3>{post.title}</h3>
+            </div>
+          ))}
+        </div>
+
+        <div className="post-details">
+          {selectedPost ? (
+            <Post post={selectedPost} setPosts={setPosts} />
+          ) : (
+            <div className="no-post">אין מה להראות כאן</div>
+          )}
+        </div>
+      </div>
+
 
       {loading && <p>Loading more posts...</p>}
       {!hasMore && <p>No more posts to load.</p>}
