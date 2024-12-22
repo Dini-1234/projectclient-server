@@ -63,21 +63,16 @@ const Posts = () => {
         setSearch={setSearch}
       />
       <button onClick={() => { setViewMyPosts(prev => !prev) }}>view my posts</button>
+      <button onClick={() => setSearch("")}>
+        נקה חיפוש
+      </button>
+
       <AddItem
         type="posts"
         setMyItem={setPosts}
       />
 
       <div className="container">
-        <div className="controls">
-          <button onClick={() => setViewMyPosts(prev => !prev)}>
-            הצג פוסטים שלי
-          </button>
-          <button onClick={() => setSearch("")}>
-            נקה חיפוש
-          </button>
-        </div>
-
         <div className="posts-list">
           {posts.filter(post =>
             (post.title.toLowerCase().includes(search.toLowerCase()) ||
