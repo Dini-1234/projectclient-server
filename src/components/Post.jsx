@@ -5,8 +5,8 @@ import Comments from './Comments';
 
 const Post = (props) => {
     const { user } = useContext(UserContext);
-    const [isModalOpen, setIsModalOpen] = useState(false); // מצב האם המודאל פתוח
-    const [isEditing, setIsEditing] = useState(false); // מצב עריכה
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const [newTitle, setNewTitle] = useState(props.post.title);
     const [newBody, setNewBody] = useState(props.post.body);
 
@@ -34,7 +34,6 @@ const Post = (props) => {
 
     return (
         <>
-            {/* פוסט שלא פתוח */}
             {!isModalOpen && (
                 <p>
                     <div>{props.index + 1}.</div>
@@ -45,7 +44,6 @@ const Post = (props) => {
                 </p>
             )}
 
-            {/* פוסט פתוח - מודאל */}
             {isModalOpen && (
                 <div className="modal">
                     <div className="modal-content">
@@ -74,16 +72,14 @@ const Post = (props) => {
                         )}
                         <button onClick={() => { setIsModalOpen(prev => !prev) }}>סגור</button>
 
-                        {/* הצגת כפתור מחיקה רק אם המשתמש הוא הבעלים של הפוסט */}
-                        {props.post.userId === user.id && (
+                        {/* {props.post.userId === user.id && ( */}
                             <Delete
                                 setMyItem={props.setPosts}
                                 id={props.post.id}
                                 type="posts"
                             />
-                        )}
-
-                        {/* הצגת ההערות רק אם המודאל פתוח */}
+                        {/* )} */}
+                        
                         <Comments postId={props.post.id} />
                     </div>
                 </div>

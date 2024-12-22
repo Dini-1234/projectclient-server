@@ -2,7 +2,7 @@ import React from 'react';
 
 const Albums = () => {
   const checkData = async () => {
-    const response = await fetch('http://localhost:3009/posts/1')
+    const response = await fetch('http://localhost:3010/posts/1')
     const data = await response.json;
     console.log(data);
 
@@ -11,7 +11,7 @@ const Albums = () => {
       .then(response => response.json())
       .then(json => console.log(json))
   const addData = () => {
-    fetch('http://localhost:3009/posts', {
+    fetch('http://localhost:3010/posts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

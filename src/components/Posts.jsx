@@ -28,7 +28,7 @@ const Posts = () => {
       const data = await response.json();
 
       if (data.length === 0) {
-        setHasMore(false); // אין עוד נתונים
+        setHasMore(false);
       } else {
         setPosts((prev) => [...prev, ...data]);
       }
@@ -74,7 +74,7 @@ const Posts = () => {
       ).map((post, index) => (<>
         <Post post={post}
           index={index}
-          key={post.id}
+          // key={post.id}
           setPosts={setPosts}
         />
       </>

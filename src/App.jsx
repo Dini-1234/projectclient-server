@@ -13,11 +13,9 @@ const App = () => {
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    // אם אין משתמש ב-UserContext, נבדוק אם יש ב-localStorage
     if (!user) {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
-        // אם יש, נהפוך את ה-JSON חזרה לאובייקט ונעדכן את ה-UserContext
         setUser(JSON.parse(storedUser));
       }
     }
