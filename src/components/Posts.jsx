@@ -46,7 +46,7 @@ const Posts = () => {
   };
 
   return (
-    <div>
+    <div className="postsElements">
       <Search
         search={search}
         setSearch={setSearch}
