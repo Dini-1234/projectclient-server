@@ -1,24 +1,21 @@
-/* סגנון כללי */
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #121212; /* רקע כהה */
-    color: #f0f0f0; /* טקסט בהיר */
+    background-color: #121212;
+    color: #f0f0f0;
 }
 
-/* קונטיינר כללי */
 .container {
     display: grid;
     grid-template-rows: auto 1fr;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 2fr 3fr;
     gap: 10px;
     height: 100vh;
     padding: 10px;
     box-sizing: border-box;
 }
 
-/* כפתורים למעלה */
 .controls {
     grid-column: span 2;
     display: flex;
@@ -27,12 +24,12 @@ body {
     gap: 10px;
 }
 
-/* רשימת הפוסטים */
 .posts-list {
     background-color: #1e1e1e;
     padding: 10px;
     border-radius: 8px;
     overflow-y: auto;
+    max-height: calc(100vh - 20px);
 }
 
 .posts-list .post {
@@ -49,7 +46,6 @@ body {
     transform: scale(1.02);
 }
 
-/* פרטי הפוסט */
 .post-details {
     background-color: #1e1e1e;
     padding: 20px;
@@ -60,7 +56,6 @@ body {
     overflow-y: auto;
 }
 
-/* אין פוסט נבחר */
 .no-post {
     font-size: 18px;
     text-align: center;
@@ -68,7 +63,6 @@ body {
     color: #888;
 }
 
-/* כפתורים */
 button {
     padding: 10px 15px;
     background: linear-gradient(90deg, #ff79c6, #8be9fd);
@@ -85,7 +79,8 @@ button:hover {
     background: linear-gradient(90deg, #ff92dc, #93f6ff);
 }
 
-input, textarea {
+input,
+textarea {
     padding: 10px;
     margin: 5px 0;
     width: 100%;
@@ -96,7 +91,8 @@ input, textarea {
     box-sizing: border-box;
 }
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
     outline: none;
     border-color: #8be9fd;
 }
