@@ -4,7 +4,7 @@ import AddItem from './AddItem';
 import Delete from './Delete';
 import Edit from './Edit';
 import { UserContext } from './context';
-import './todos.css'
+import '../css/todos.css'
 const Todos = () => {
   const { user } = useContext(UserContext);
   const [myTodos, setMyTodos] = useState([]);
@@ -29,7 +29,7 @@ const Todos = () => {
   }, [user.id]);
 
   if (loading) {
-    return <div>טעינה...</div>;
+    return <div>Loading...</div>;
   }
 
   const handleCheckboxChange = (taskId) => {
@@ -92,16 +92,16 @@ const Todos = () => {
       <AddItem setMyItem={setMyTodos} type="todos" />
       <Search search={search} setSearch={setSearch} />
 
-      <div>
+      <div className='todosList'>
         <select onChange={(e) => setSortField(e.target.value)} value={sortField}>
-          <option value="title">כותרת</option>
-          <option value="completed">הושלם</option>
+          <option value="title">Title</option>
+          <option value="completed">Completed</option>
           <option value="id">ID</option>
         </select>
 
         <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
-          <option value="asc">עולה</option>
-          <option value="desc">יורד</option>
+          <option value="asc">Ascending sort</option>
+          <option value="desc">Descending sort</option>
         </select>
 
         <ul>
@@ -121,8 +121,8 @@ const Todos = () => {
                       value={newTitle}
                       onChange={(e) => setNewTitle(e.target.value)}
                     />
-                    <button onClick={() => saveEdit(task.id)}>שמור</button>
-                    <button onClick={() => setIsEditing(null)}>ביטול</button>
+                    <button onClick={() => saveEdit(task.id)}>Save</button>
+                    <button onClick={() => setIsEditing(null)}>Cancel</button>
                   </div>
                 ) : (
                   <>
@@ -132,7 +132,7 @@ const Todos = () => {
                       onChange={() => handleCheckboxChange(task.id)}
                     />
                     <div className='task-text'>
-                    {index + 1}. {task.title}
+                      {index + 1}. {task.title}
                     </div>
                     <div className="task-actions">
                       <Delete setMyItem={setMyTodos} id={task.id} type="todos" />

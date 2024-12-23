@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-
+import '../css/navigation.css';
 
 const Navigation = () => {
     const location = useLocation();
@@ -16,24 +16,25 @@ const Navigation = () => {
     };
 
     return (
-        <nav>
-            <button onClick={handleBack}>↪️</button>
+        <nav className="navigation">
+            <button className="nav-button" onClick={handleBack}>↪️</button>
             <Link to="/home/posts">
-                <button>פוסטים</button>
+                <button className="nav-button">Posts</button>
             </Link>
             <Link to="/home">
-                <button>🏠</button>
+                <button className="nav-button">🏠</button>
             </Link>
             <Link to="/home/albums">
-                <button>אלבומים</button>
+                <button className="nav-button">Albums</button>
             </Link>
             <Link to="/home/tasks">
-                <button>משימות</button>
+                <button className="nav-button">Tasks</button>
             </Link>
             <Link to="/login">
-                <button onClick={() => {localStorage.removeItem('user')}}>התנתקות</button>
+                <button className="nav-button" onClick={() => { localStorage.removeItem('user') }}>Log out</button>
             </Link>
         </nav>
     );
 };
+
 export default Navigation;

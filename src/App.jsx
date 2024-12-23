@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import './App.css'
 import Login from './components/Login'
 import Home from './components/Home';
@@ -15,17 +15,19 @@ const App = () => {
   useEffect(() => {
     if (!user) {
       const storedUser = localStorage.getItem('user');
+
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }
     }
   }, []);
+
   return (
     <div>
-      {/* <div>hi {user.name} welcome!</div> */}
-      {/* {user ? <Home /> : <Login />} */}
       <Router>
+
         <Navigation />
+
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
@@ -34,11 +36,11 @@ const App = () => {
           <Route path="/home/albums" element={<Albums />} />
           <Route path="/home/tasks" element={<Todos />} />
           <Route path="/home/posts/:id" element={<Post />} />
-
           {/* <Route path="/logout" element={<Logout />} /> */}
         </Routes>
       </Router>
     </div>
   );
 };
-export default App
+
+export default App;

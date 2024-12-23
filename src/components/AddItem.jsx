@@ -1,10 +1,10 @@
-import React, { useState, useRef ,useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { UserContext } from './context';
 function AddItem(props) {
     const [isAdding, setIsAdding] = useState(false);
     const newTaskRef = useRef(null);
-      const { user } = useContext(UserContext);
-    
+    const { user } = useContext(UserContext);
+
 
     const handleAddItem = () => {
         const newText = newTaskRef.current.value;
@@ -39,7 +39,7 @@ function AddItem(props) {
                 onClick={() => setIsAdding(!isAdding)}
                 style={{ fontSize: '20px', marginBottom: '10px', padding: '5px 10px' }}
             >
-                {isAdding ? 'ביטול' : '+'}
+                {isAdding ? 'Cancel' : '+'}
             </button>
 
             {isAdding && (
@@ -47,11 +47,11 @@ function AddItem(props) {
                     <input
                         type="text"
                         ref={newTaskRef}
-                        placeholder="הכנס משימה חדשה"
+                        placeholder="Type a new task..."
                         style={{ padding: '5px', marginRight: '10px' }}
                     />
                     <button onClick={handleAddItem} style={{ padding: '5px 10px' }}>
-                        שלח
+                        Submit
                     </button>
                 </div>
             )}

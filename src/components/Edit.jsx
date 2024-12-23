@@ -9,7 +9,7 @@ const Edit = (props) => {
 
     return (
         <span onClick={() => editTask(props.id)}>🖊️</span>
-    )
+    );
 };
 
 export default Edit;

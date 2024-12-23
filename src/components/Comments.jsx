@@ -1,19 +1,19 @@
-import React, { useState, useEffect ,useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from './context';
 
 function Comments({ postId }) {
   const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState(""); // הערה חדשה
-  const [loading, setLoading] = useState(false); // מצב טעינה
+  const [newComment, setNewComment] = useState("");
+  const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
 
-  // טוען את ההערות מהשרת
   useEffect(() => {
     fetchComments();
   }, [postId]);
 
   const fetchComments = async () => {
     setLoading(true);
+
     try {
       const response = await fetch(`http://localhost:3010/comments?postId=${postId}`);
       const data = await response.json();
@@ -26,12 +26,12 @@ function Comments({ postId }) {
   };
 
   const handleAddComment = async () => {
-    if (!newComment) return; // אם אין טקסט להוסיף, לא עושים כלום
+    if (!newComment) return;
 
     const commentData = {
       postId: postId,
       body: newComment,
-      email:user.email
+      email: user.email
     };
 
     try {
@@ -43,8 +43,8 @@ function Comments({ postId }) {
         body: JSON.stringify(commentData),
       });
       const newCommentFromServer = await response.json();
-      setComments((prev) => [...prev, newCommentFromServer]); // עדכון המערך עם ההערה החדשה
-      setNewComment(""); // ניקוי שדה הטקסט
+      setComments((prev) => [...prev, newCommentFromServer]);
+      setNewComment("");
     } catch (error) {
       console.error("Error adding comment:", error);
     }
@@ -52,11 +52,10 @@ function Comments({ postId }) {
 
   return (
     <div>
-      <h3>הערות:</h3>
+      <h3>Comments:</h3>
 
-      {/* הצגת הערות */}
       {loading ? (
-        <p>טוען הערות...</p>
+        <p>Loading comments...</p>
       ) : (
         comments.map((comment) => (
           <div key={comment.id} className="comment">
@@ -66,14 +65,13 @@ function Comments({ postId }) {
         ))
       )}
 
-      {/* טופס להוספת הערה */}
       <div>
         <textarea
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
-          placeholder="הכנס הערה"
+          placeholder="Type a comment..."
         />
-        <button onClick={handleAddComment}>הוסף הערה</button>
+        <button onClick={handleAddComment}>Add comment</button>
       </div>
     </div>
   );
