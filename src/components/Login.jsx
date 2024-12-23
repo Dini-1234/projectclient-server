@@ -10,7 +10,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/users?username=${userLogin.name}`);
+      const response = await fetch(`http://localhost:3010/users?username=${userLogin.name}`);
       const data = await response.json();
       if (data.length > 0) {
         const foundUser = data[0];

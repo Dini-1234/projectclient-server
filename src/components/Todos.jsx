@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Search from './Search'
+import Search from './Search';
 import AddItem from './AddItem';
 import Delete from './Delete';
 import Edit from './Edit';
 import { UserContext } from './context';
-
+import './todos.css'
 const Todos = () => {
   const { user } = useContext(UserContext);
   const [myTodos, setMyTodos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState(''); 
+  const [search, setSearch] = useState('');
   const [sortField, setSortField] = useState('title');
   const [sortOrder, setSortOrder] = useState('asc');
   const [isEditing, setIsEditing] = useState(null);
@@ -89,15 +89,9 @@ const Todos = () => {
 
   return (
     <div>
-      <AddItem
-        setMyItem={setMyTodos}
-        type="todos"
-      />
+      <AddItem setMyItem={setMyTodos} type="todos" />
+      <Search search={search} setSearch={setSearch} />
 
-      <Search
-        search={search}
-        setSearch={setSearch}
-      />
       <div>
         <select onChange={(e) => setSortField(e.target.value)} value={sortField}>
           <option value="title">כותרת</option>
@@ -109,17 +103,19 @@ const Todos = () => {
           <option value="asc">עולה</option>
           <option value="desc">יורד</option>
         </select>
+
         <ul>
-          {sortTodos(myTodos).filter(task =>
-            task.title.toLowerCase().includes(search.toLowerCase()) ||
-            task.id.toString().includes(search)||
-            ("true".includes(search.toLowerCase()) && task.completed) || 
-            ("false".includes(search.toLowerCase()) && !task.completed)
-          )
-            .map((task,index) => (
+          {sortTodos(myTodos)
+            .filter(task =>
+              task.title.toLowerCase().includes(search.toLowerCase()) ||
+              task.id.toString().includes(search) ||
+              ("true".includes(search.toLowerCase()) && task.completed) ||
+              ("false".includes(search.toLowerCase()) && !task.completed)
+            )
+            .map((task, index) => (
               <li key={task.id}>
                 {isEditing === task.id ? (
-                  <div>
+                  <div className='task-text'>
                     <input
                       type="text"
                       value={newTitle}
@@ -134,25 +130,20 @@ const Todos = () => {
                       type="checkbox"
                       checked={task.completed}
                       onChange={() => handleCheckboxChange(task.id)}
-                    />{index+1}.{task.title}
-                    <Delete
-                      setMyItem={setMyTodos}
-                      id={task.id}
-                      type="todos"
                     />
-                    <Edit
-                      myTodos={myTodos}
-                      id={task.id}
-                      setIsEditing={setIsEditing}
-                      setNewTitle={setNewTitle}
-                    />
+                    <div className='task-text'>
+                    {index + 1}. {task.title}
+                    </div>
+                    <div className="task-actions">
+                      <Delete setMyItem={setMyTodos} id={task.id} type="todos" />
+                      <Edit myTodos={myTodos} id={task.id} setIsEditing={setIsEditing} setNewTitle={setNewTitle} />
+                    </div>
                   </>
                 )}
               </li>
             ))}
         </ul>
       </div>
-
     </div>
   );
 };

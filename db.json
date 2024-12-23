@@ -4324,12 +4324,6 @@
   "todos": [
     {
       "userId": 1,
-      "id": "7",
-      "title": "dfghjkl;",
-      "completed": false
-    },
-    {
-      "userId": 1,
       "id": "8",
       "title": "quo adipisci enim quam ut ab",
       "completed": true
@@ -4386,7 +4380,7 @@
       "userId": 1,
       "id": "18",
       "title": "dolorum est consequatur ea mollitia in culpa",
-      "completed": false
+      "completed": true
     },
     {
       "userId": 1,
@@ -5495,19 +5489,19 @@
     {
       "id": "f510",
       "userId": 1,
-      "title": "dasd",
-      "completed": false
-    },
-    {
-      "id": "82cd",
-      "userId": 1,
-      "title": "adsfdg",
-      "completed": false
+      "title": "ghhhjhj",
+      "completed": true
     },
     {
       "id": "1b52",
       "userId": 1,
       "title": "גכעכ",
+      "completed": false
+    },
+    {
+      "id": "c7ce",
+      "userId": "1",
+      "title": "להוסיף שיעבוד הדפדפוף בפוסטים",
       "completed": false
     }
   ],
