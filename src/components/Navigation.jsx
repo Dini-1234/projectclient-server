@@ -1,9 +1,11 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../css/navigation.css';
-
+import  { useContext } from 'react';
+import { UserContext } from './context';
 const Navigation = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { user } = useContext(UserContext);
 
     if (location.pathname === '/login' || location.pathname === '/') {
         return null;
@@ -16,6 +18,7 @@ const Navigation = () => {
     };
 
     return (
+        <>
         <nav className="navigation">
             <button className="nav-button" onClick={handleBack}>↪️</button>
             <Link to="/home/posts">
@@ -33,7 +36,10 @@ const Navigation = () => {
             <Link to="/login">
                 <button className="nav-button" onClick={() => { localStorage.removeItem('user') }}>Log out</button>
             </Link>
+            <div>Hello {user.name}</div>
         </nav>
+
+        </>
     );
 };
 

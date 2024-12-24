@@ -6,8 +6,8 @@ const Home = () => {
 
   return (
     <div>
-      <h5>Welcome to home page!</h5>
-    </div>
+            <h5>Hello {user.name}!!!😊</h5>
+            </div>
   );
 };
 
