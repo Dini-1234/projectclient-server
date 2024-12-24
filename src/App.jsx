@@ -8,6 +8,7 @@ import Posts from './components/Posts'
 import Albums from './components/Albums'
 import Navigation from './components/Navigation'
 import Post from './components/Post';
+import Photos from './components/Photos';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 const App = () => {
   const { user, setUser } = useContext(UserContext);
@@ -35,7 +36,7 @@ const App = () => {
           <Route path="/home/posts" element={<Posts />} />
           <Route path="/home/albums" element={<Albums />} />
           <Route path="/home/tasks" element={<Todos />} />
-          <Route path="/home/posts/:id" element={<Post />} />
+          <Route path="/home/albums/:id" element={<Photos />} />
           {/* <Route path="/logout" element={<Logout />} /> */}
         </Routes>
       </Router>

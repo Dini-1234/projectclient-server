@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from './context';
+import Delete from "./Delete";
 
 function Comments({ postId }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
+  const [isEditing, setIsEditing] = useState(false);
+  
 
   useEffect(() => {
     fetchComments();
@@ -15,7 +18,7 @@ function Comments({ postId }) {
     setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:3010/comments?postId=${postId}`);
+      const response = await fetch(`http://localhost:3011/comments?postId=${postId}`);
       const data = await response.json();
       setComments(data);
     } catch (error) {
@@ -35,7 +38,7 @@ function Comments({ postId }) {
     };
 
     try {
-      const response = await fetch("http://localhost:3010/comments", {
+      const response = await fetch("http://localhost:3011/comments", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,19 +64,28 @@ function Comments({ postId }) {
           <div key={comment.id} className="comment">
             <p>{comment.body}</p>
             <p>owner: {comment.email}</p>
-          </div>
-        ))
-      )}
-
-      <div>
-        <textarea
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Type a comment..."
-        />
-        <button onClick={handleAddComment}>Add comment</button>
-      </div>
+            {comment.email == user.email && <>
+              <Delete
+                setMyItem={setComments}
+                id={comment.id}
+                type="comments"
+              />
+              <button onClick={() => setIsEditing(true)}>Edit comment</button> 
+          </>}
     </div>
+  ))
+      )
+}
+
+<div>
+  <textarea
+    value={newComment}
+    onChange={(e) => setNewComment(e.target.value)}
+    placeholder="Type a comment..."
+  />
+  <button onClick={handleAddComment}>Add comment</button>
+</div>
+    </div >
   );
 }
 

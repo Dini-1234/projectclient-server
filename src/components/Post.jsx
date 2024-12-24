@@ -14,7 +14,7 @@ const Post = ({ post, setPosts }) => {
         const updatedPost = { ...post, title: newTitle, body: newBody };
 
         try {
-            await fetch(`http://localhost:3010/posts/${post.id}`, {
+            await fetch(`http://localhost:3011/posts/${post.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,11 +35,18 @@ const Post = ({ post, setPosts }) => {
 
     return (
         <div>
+
             {!isEditing ? (
                 <>
                     <h4>{post.title}</h4>
                     <p>{post.body}</p>
-                    <button onClick={() => setIsEditing(true)}>Edit post</button>
+                    {post.userId == user.id && <div>
+                        <Delete
+                        setMyItem={setPosts}
+                        id={post.id}
+                        type="posts"
+                    />
+                        <button onClick={() => setIsEditing(true)}>Edit post</button></div>}
                 </>
             ) : (
                 <>
@@ -57,11 +64,8 @@ const Post = ({ post, setPosts }) => {
                 </>
             )}
 
-            <Delete
-                setMyItem={setPosts}
-                id={post.id}
-                type="posts"
-            />
+
+
 
             <button onClick={() => setShowComments(!showComments)}>
                 {showComments ? "Hide comments" : "view comments"}

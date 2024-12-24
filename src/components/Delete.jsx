@@ -2,7 +2,7 @@ import React from 'react';
 
 const Delete = (props) => {
     const deleteTask = (itemId) => {
-        fetch(`http://localhost:3010/${props.type}/${itemId}`, {
+        fetch(`http://localhost:3011/${props.type}/${itemId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

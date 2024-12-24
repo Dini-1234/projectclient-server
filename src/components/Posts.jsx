@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import Post from "./Post";
 import Search from "./Search";
 import '../css/posts.css';
-import AddItem from "./AddItem";
 import { UserContext } from './context';
+import Delete from "./Delete";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -14,6 +14,9 @@ const Posts = () => {
   const { user } = useContext(UserContext);
   const [viewMyPosts, setViewMyPosts] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  // מצב עבור הטופס להוספת פוסט חדש
+  const [newPostTitle, setNewPostTitle] = useState('');
+  const [newPostBody, setNewPostBody] = useState('');
 
   useEffect(() => {
     fetchPosts(page);
@@ -23,13 +26,13 @@ const Posts = () => {
     if (loading) return;
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3010/posts?_page=${page}&_limit=10`);
+      const response = await fetch(`http://localhost:3011/posts?_page=${page}`);
       const data = await response.json();
 
       if (data.length === 0) {
         setHasMore(false);
       } else {
-        setPosts((prev) => [...prev, ...data]);
+        setPosts((prev) => [...prev, ...data.data]);
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -45,11 +48,51 @@ const Posts = () => {
     }
   };
 
+  // פונקציה להוספת פוסט חדש
+  const addPost = async () => {
+    if (!newPostTitle || !newPostBody) {
+      alert('Please enter both a title and a body for the post.');
+      return;
+    }
+
+    try {
+      const newPost = {
+        userId: user.id,
+        title: newPostTitle,
+        body: newPostBody,
+      }
+      const response = await fetch('http://localhost:3011/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newPost),
+      });
+
+      const addedPost = await response.json();
+      setPosts((prev) => [addedPost, ...prev]); // הוספת הפוסט החדש למצב המקומי
+      setNewPostTitle(''); // ניקוי השדה
+      setNewPostBody(''); // ניקוי השדה
+    } catch (error) {
+      console.error('Error adding post:', error);
+    }
+  };
+  // פונקציה לעריכת פוסט
+  const handleEdit = (postId) => {
+    console.log("Editing post", postId);
+    // ניתן להוסיף קוד לעריכה של הפוסט
+  };
+
+
   return (
     <div className="postsElements">
-      <Search
-        search={search}
-        setSearch={setSearch}
+      <label htmlFor="search">Search</label>
+      <input
+        type="text"
+        placeholder="search..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        style={{ padding: '5px', marginBottom: '10px' }}
       />
 
       <button onClick={() => setViewMyPosts(prev => !prev)}>View my posts</button>
@@ -57,23 +100,40 @@ const Posts = () => {
         Clear search
       </button>
 
-      <AddItem
-        type="posts"
-        setMyItem={setPosts}
-      />
+      {/* טופס להוספת פוסט חדש */}
+      <div className="add-post-form">
+        <input
+          type="text"
+          placeholder="Enter post title"
+          value={newPostTitle}
+          onChange={(e) => setNewPostTitle(e.target.value)}
+        />
+        <textarea
+          placeholder="Enter post body"
+          value={newPostBody}
+          onChange={(e) => setNewPostBody(e.target.value)}
+        />
+        <button onClick={addPost}>Add Post</button>
+      </div>
 
       <div className="container">
         <div
           className="posts-list"
-          onScroll={handleScroll}
+        // onScroll={handleScroll}
         >
           {posts.filter(post =>
-            (post.title.toLowerCase().includes(search.toLowerCase()) ||
-              post.id.toString().includes(search)) &&
+            (search && (post.title.toLowerCase().includes(search.toLowerCase()) ||
+              post.id.toString().includes(search))) &&
             (!viewMyPosts || post.userId === user.id)
           ).map(post => (
             <div key={post.id} className="post" onClick={() => setSelectedPost(post)}>
               <h3>{post.title}</h3>
+              {post.userId === user.id && (
+                <div className="post-actions">
+                  <button onClick={() => handleEdit(post.id)}>Edit</button>
+                  <Delete setMyItem={setPosts} id={post.id} type="posts" />
+                </div>
+              )}
             </div>
           ))}
           {loading && <p>Loading more posts...</p>}
@@ -90,6 +150,8 @@ const Posts = () => {
       </div>
     </div>
   );
+
+
 };
 
 export default Posts;

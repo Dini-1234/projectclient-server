@@ -1,0 +1,79 @@
+/* מבנה גריד לתמונות */
+.photos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 5 תמונות בכל שורה */
+    gap: 20px;
+    padding: 20px;
+}
+
+/* עיצוב של כל תמונה */
+.photo-item {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* עיצוב התמונה בתוך האלמנט */
+.photo-img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+/* הכותרת של כל תמונה */
+.photo-title {
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+}
+
+/* שינוי עיצוב בריחוף */
+.photo-item:hover {
+    transform: scale(1.005);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.photo-item:hover .photo-img {
+    transform: scale(1.05);
+}
+/* עיצוב לחלונית קופצת */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.popup-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    z-index: 1001;
+}
+
+button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
