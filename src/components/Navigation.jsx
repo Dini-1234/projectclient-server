@@ -36,7 +36,7 @@ const Navigation = () => {
             <Link to="/login">
                 <button className="nav-button" onClick={() => { localStorage.removeItem('user') }}>Log out</button>
             </Link>
-            <div>Hello {user.name}</div>
+            <div>Hello {user.name}!</div>
         </nav>
 
         </>
