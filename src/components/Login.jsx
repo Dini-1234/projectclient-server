@@ -1,13 +1,18 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import { UserContext } from './context';
 import { useNavigate } from 'react-router-dom';
 import '../css/login.css'
 
 const Login = () => {
   const { setUser } = useContext(UserContext);
-  const [userLogin, setUserLogin] = useState({});
+  const [userLogin, setUserLogin] = useState({ name: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/login', { replace: true });
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {

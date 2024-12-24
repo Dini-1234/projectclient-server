@@ -122,7 +122,7 @@ const Posts = () => {
         // onScroll={handleScroll}
         >
           {posts.filter(post =>
-            (search && (post.title.toLowerCase().includes(search.toLowerCase()) ||
+            ((post.title.toLowerCase().includes(search.toLowerCase()) ||
               post.id.toString().includes(search))) &&
             (!viewMyPosts || post.userId === user.id)
           ).map(post => (
