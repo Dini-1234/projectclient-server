@@ -9,6 +9,9 @@ import Albums from './components/Albums'
 import Navigation from './components/Navigation'
 import Post from './components/Post';
 import Photos from './components/Photos';
+import SignUp from './components/SignUp';
+import EditInfo from './components/EditInfo';
+import Info from './components/Info'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 const App = () => {
   const { user, setUser } = useContext(UserContext);
@@ -37,7 +40,10 @@ const App = () => {
           <Route path="/home/albums" element={<Albums />} />
           <Route path="/home/tasks" element={<Todos />} />
           <Route path="/home/albums/:id" element={<Photos />} />
-          {/* <Route path="/logout" element={<Logout />} /> */}
+          <Route path="/signUp" element={<SignUp />} />
+          <Route path="/editInfo" element={<EditInfo />} />
+          <Route path="/editInfoNewUser" element={<EditInfo />} />
+          <Route path="/info" element={<Info />} />
         </Routes>
       </Router>
     </div>

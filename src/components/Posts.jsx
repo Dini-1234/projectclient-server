@@ -7,33 +7,25 @@ import Delete from "./Delete";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
   const [search, setSearch] = useState('');
   const { user } = useContext(UserContext);
   const [viewMyPosts, setViewMyPosts] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
-  // מצב עבור הטופס להוספת פוסט חדש
   const [newPostTitle, setNewPostTitle] = useState('');
   const [newPostBody, setNewPostBody] = useState('');
 
   useEffect(() => {
-    fetchPosts(page);
-  }, [page]);
+    fetchPosts()
+  }, [user.id]);
 
-  const fetchPosts = async (page) => {
+  const fetchPosts = async () => {
     if (loading) return;
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3011/posts?_page=${page}`);
+      const response = await fetch(`http://localhost:3012/posts`);
       const data = await response.json();
-
-      if (data.length === 0) {
-        setHasMore(false);
-      } else {
-        setPosts((prev) => [...prev, ...data.data]);
-      }
+      setPosts(data);
     } catch (error) {
       console.error("Error fetching posts:", error);
     } finally {
@@ -41,14 +33,6 @@ const Posts = () => {
     }
   };
 
-  const handleScroll = (e) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.target;
-    if (scrollTop + clientHeight >= scrollHeight - 100 && hasMore && !loading) {
-      setPage((prev) => prev + 1);
-    }
-  };
-
-  // פונקציה להוספת פוסט חדש
   const addPost = async () => {
     if (!newPostTitle || !newPostBody) {
       alert('Please enter both a title and a body for the post.');
@@ -61,7 +45,7 @@ const Posts = () => {
         title: newPostTitle,
         body: newPostBody,
       }
-      const response = await fetch('http://localhost:3011/posts', {
+      const response = await fetch('http://localhost:3012/posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,19 +54,17 @@ const Posts = () => {
       });
 
       const addedPost = await response.json();
-      setPosts((prev) => [addedPost, ...prev]); // הוספת הפוסט החדש למצב המקומי
-      setNewPostTitle(''); // ניקוי השדה
-      setNewPostBody(''); // ניקוי השדה
+      setPosts((prev) => [addedPost, ...prev]); 
+      setNewPostTitle('');
+      setNewPostBody('');
     } catch (error) {
       console.error('Error adding post:', error);
     }
   };
-  // פונקציה לעריכת פוסט
+
   const handleEdit = (postId) => {
     console.log("Editing post", postId);
-    // ניתן להוסיף קוד לעריכה של הפוסט
   };
-
 
   return (
     <div className="postsElements">
@@ -95,12 +77,19 @@ const Posts = () => {
         style={{ padding: '5px', marginBottom: '10px' }}
       />
 
-      <button onClick={() => setViewMyPosts(prev => !prev)}>View my posts</button>
+      <button 
+        onClick={() => setViewMyPosts(prev => !prev)}
+        style={{
+          backgroundColor: viewMyPosts ? 'pink' : '', 
+          color: viewMyPosts ? 'white' : ''
+        }}
+      >
+        {viewMyPosts ? 'view all posts' : 'view my posts'}
+      </button>
       <button onClick={() => setSearch("")}>
         Clear search
       </button>
 
-      {/* טופס להוספת פוסט חדש */}
       <div className="add-post-form">
         <input
           type="text"
@@ -117,32 +106,30 @@ const Posts = () => {
       </div>
 
       <div className="container">
-        <div
-          className="posts-list"
-        // onScroll={handleScroll}
-        >
+        <div className="posts-list">
           {posts.filter(post =>
             ((post.title.toLowerCase().includes(search.toLowerCase()) ||
               post.id.toString().includes(search))) &&
             (!viewMyPosts || post.userId === user.id)
           ).map(post => (
-            <div key={post.id} className="post" onClick={() => setSelectedPost(post)}>
+            <div 
+              key={post.id} 
+              className="post" 
+              onClick={() => setSelectedPost(post)}
+              style={{
+                backgroundColor: post.userId === user.id ? 'pink' : ''
+              }}
+            >
               <h3>{post.title}</h3>
-              {post.userId === user.id && (
-                <div className="post-actions">
-                  <button onClick={() => handleEdit(post.id)}>Edit</button>
-                  <Delete setMyItem={setPosts} id={post.id} type="posts" />
-                </div>
-              )}
+
             </div>
           ))}
           {loading && <p>Loading more posts...</p>}
-          {!hasMore && <p>No more posts to load.</p>}
         </div>
 
         <div className="post-details">
           {selectedPost ? (
-            <Post post={selectedPost} setPosts={setPosts} />
+            <Post post={selectedPost} setPosts={setPosts}setSelectedPost={setSelectedPost} />
           ) : (
             <div className="no-post">Nothing to show here</div>
           )}
@@ -150,8 +137,6 @@ const Posts = () => {
       </div>
     </div>
   );
-
-
 };
 
 export default Posts;

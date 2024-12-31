@@ -8,9 +8,9 @@ import Delete from "./Delete";
 
 const Photos = () => {
     const [photos, setPhotos] = useState([]);
-    const [page, setPage] = useState(1);
+    // const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
+    //  const [hasMore, setHasMore] = useState(true);
     const [search, setSearch] = useState('');
     const [newPhoto, setNewPhoto] = useState({ title: '', url: '' }); // מצב לתמונה חדשה
     const [editingPhoto, setEditingPhoto] = useState(null); // מצב לעריכת תמונה
@@ -20,21 +20,19 @@ const Photos = () => {
     const album = location.state?.album;
 
     useEffect(() => {
-        fetchPhotos(page);
-    }, [page]);
+        fetchPhotos();
+    }, [user.id]);
 
-    const fetchPhotos = async (page) => {
+    const fetchPhotos = async () => {
         if (loading) return;
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:3011/photos?albumId=${album.id}&_page=${page}`);
+            const response = await fetch(`http://localhost:3012/photos?albumId=${album.id}`);
             const data = await response.json();
 
-            if (data.length === 0) {
-                setHasMore(false);
-            } else {
-                setPhotos((prev) => [...prev, ...data.data]);
-            }
+            // setPhotos((prev) => [...prev, ...data]);
+            setPhotos(data);
+
         } catch (error) {
             console.error("Error fetching photos:", error);
         } finally {
@@ -42,12 +40,12 @@ const Photos = () => {
         }
     };
 
-    const handleScroll = (e) => {
-        const { scrollTop, scrollHeight, clientHeight } = e.target;
-        if (scrollTop + clientHeight >= scrollHeight - 100 && hasMore && !loading) {
-            setPage((prev) => prev + 1);
-        }
-    };
+    // const handleScroll = (e) => {
+    //     const { scrollTop, scrollHeight, clientHeight } = e.target;
+    //     if (scrollTop + clientHeight >= scrollHeight - 100 && hasMore && !loading) {
+    //         setPage((prev) => prev + 1);
+    //     }
+    // };
 
     // פונקציה להוספת תמונה חדשה
     const addPhoto = async () => {
@@ -57,7 +55,7 @@ const Photos = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3011/photos', {
+            const response = await fetch('http://localhost:3012/photos', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -102,7 +100,7 @@ const Photos = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:3011/photos/${editingPhoto.id}`, {
+            const response = await fetch(`http://localhost:3012/photos/${editingPhoto.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -182,7 +180,8 @@ const Photos = () => {
                 </div>
             )}
 
-            <div className="photos-grid" onScroll={handleScroll}>
+            <div className="photos-grid"// onScroll={handleScroll}
+            >
                 {photos.map((photo, index) => (
                     <div key={index} className="photo-item">
                         <img src={photo.url} alt={photo.title} className="photo-img" />
@@ -192,7 +191,7 @@ const Photos = () => {
                     </div>
                 ))}
                 {loading && <div>Loading more photos...</div>}
-                {!hasMore && <p>No more posts to load.</p>}
+                {/* {!hasMore && <p>No more posts to load.</p>} */}
             </div>
         </div>
     );

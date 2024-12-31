@@ -16,7 +16,7 @@ const Todos = () => {
   const [newTitle, setNewTitle] = useState('');
 
   useEffect(() => {
-    fetch(`http://localhost:3011/todos?userId=${user.id}`)
+    fetch(`http://localhost:3012/todos?userId=${user.id}`)
       .then(response => response.json())
       .then(json => {
         setMyTodos(json);
@@ -40,7 +40,7 @@ const Todos = () => {
       return updatedTodos;
     });
 
-    fetch(`http://localhost:3011/todos/${taskId}`, {
+    fetch(`http://localhost:3012/todos/${taskId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const Todos = () => {
   const saveEdit = (taskId) => {
     const updatedTask = { ...myTodos.find(todo => todo.id === taskId), title: newTitle };
 
-    fetch(`http://localhost:3011/todos/${taskId}`, {
+    fetch(`http://localhost:3012/todos/${taskId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

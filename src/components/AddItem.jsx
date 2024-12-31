@@ -16,7 +16,7 @@ function AddItem(props) {
             completed: false,
         };
 
-        fetch(`http://localhost:3011/${props.type}`, {
+        fetch(`http://localhost:3012/${props.type}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

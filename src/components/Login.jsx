@@ -1,6 +1,6 @@
-import React, { useContext, useState,useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from './context';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../css/login.css'
 
 const Login = () => {
@@ -16,7 +16,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3011/users?username=${userLogin.name}&website=${userLogin.password}`);
+      const response = await fetch(`http://localhost:3012/users?username=${userLogin.name}&website=${userLogin.password}`);
       const data = await response.json();
       if (data.length > 0) {
         const foundUser = data[0];
@@ -69,6 +69,7 @@ const Login = () => {
         </button>
       </form>
       {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
+      <Link to="/signUp"><div>Create an account</div></Link>
     </div>
   );
 };

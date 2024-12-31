@@ -14,7 +14,7 @@ const Albums = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:3011/albums?userId=${user.id}`)
+    fetch(`http://localhost:3012/albums?userId=${user.id}`)
       .then(response => response.json())
       .then(json => {
         setAlbums(json);
@@ -34,7 +34,7 @@ const Albums = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3011/albums', {
+      const response = await fetch('http://localhost:3012/albums', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const Albums = () => {
         search={search}
         setSearch={setSearch}
       />
-      
+
       {/* טופס להוספת אלבום חדש */}
       <div className="add-album-form">
         <input
