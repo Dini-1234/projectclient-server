@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import React, { useContext } from 'react';
 import { UserContext } from './context';
+import '../css/info.css'; // ייבוא ה-CSS
+
 function Info() {
     const { user } = useContext(UserContext);
 
@@ -38,7 +40,7 @@ function Info() {
             <div>
                 <strong>Company:</strong> {user.company?.name}
             </div>
-            <button onClick={handleEdit} style={{ marginTop: '20px', padding: '10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px' }}>
+            <button onClick={handleEdit}>
                 Edit Information
             </button>
         </div>

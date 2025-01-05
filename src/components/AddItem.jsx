@@ -1,61 +1,111 @@
 import React, { useState, useRef, useContext } from "react";
 import { UserContext } from './context';
-function AddItem(props) {
-    const [isAdding, setIsAdding] = useState(false);
-    const newTaskRef = useRef(null);
-    const { user } = useContext(UserContext);
+// function AddItem(props) {
+//     const [isAdding, setIsAdding] = useState(false);
+//     const newTaskRef = useRef(null);
+//     const { user } = useContext(UserContext);
 
 
-    const handleAddItem = () => {
-        const newText = newTaskRef.current.value;
-        if (!newText) return;
+//     const handleAddItem = () => {
+//         const newText = newTaskRef.current.value;
+//         if (!newText) return;
 
-        const newTaskObj = {
-            userId: user.id,
-            title: newText,
-            completed: false,
-        };
+//         const newTaskObj = {
+//             userId: user.id,
+//             title: newText,
+//             completed: false,
+//         };
 
-        fetch(`http://localhost:3012/${props.type}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newTaskObj),
-        })
-            .then(response => response.json())
-            .then(newTaskData => {
-                props.setMyItem(prevTodos => [...prevTodos, newTaskData]);
+//         fetch(`http://localhost:3012/${props.type}`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify(newTaskObj),
+//         })
+//             .then(response => response.json())
+//             .then(newTaskData => {
+//                 props.setMyItem(prevTodos => [...prevTodos, newTaskData]);
 
-                newTaskRef.current.value = '';
-                setIsAdding(false);
-            })
-            .catch(err => console.error(`Error adding new ${props.type}:`, err));
-    };
+//                 newTaskRef.current.value = '';
+//                 setIsAdding(false);
+//             })
+//             .catch(err => console.error(`Error adding new ${props.type}:`, err));
+//     };
 
-    return (
-        <>
-            <button
-                onClick={() => setIsAdding(!isAdding)}
-                style={{ fontSize: '20px', marginBottom: '10px', padding: '5px 10px' }}
-            >
-                {isAdding ? 'Cancel' : '+'}
-            </button>
+//     return (
+//         <>
+//             <button
+//                 onClick={() => setIsAdding(!isAdding)}
+//                 style={{ fontSize: '20px', marginBottom: '10px', padding: '5px 10px' }}
+//             >
+//                 {isAdding ? 'Cancel' : '+'}
+//             </button>
 
-            {isAdding && (
-                <div>
-                    <input
-                        type="text"
-                        ref={newTaskRef}
-                        placeholder="Type a new task..."
-                        style={{ padding: '5px', marginRight: '10px' }}
-                    />
-                    <button onClick={handleAddItem} style={{ padding: '5px 10px' }}>
-                        Submit
-                    </button>
-                </div>
-            )}
-        </>
-    )
-}
+//             {isAdding && (
+//                 <div>
+//                     <input
+//                         type="text"
+//                         ref={newTaskRef}
+//                         placeholder="Type a new task..."
+//                         style={{ padding: '5px', marginRight: '10px' }}
+//                     />
+//                     <button onClick={handleAddItem} style={{ padding: '5px 10px' }}>
+//                         Submit
+//                     </button>
+//                 </div>
+//             )}
+//         </>
+//     )
+// }
+// export default AddItem;
+import "../css/modal.css"; // הוספת עיצוב לחלונית הקופצת
+
+const AddItem = ({ fields, itemType, isOpen, onClose, onSave }) => {
+  const [formData, setFormData] = useState({});
+
+  const handleChange = (fieldName, value) => {
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+  };
+
+  const handleSave = () => {
+    onSave(formData);
+    setFormData({});
+    onClose();
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>הוסף {itemType}</h2>
+        <form>
+          {fields.map(({ name, type }) => (
+            <div key={name} className="form-group">
+              <label>{name}</label>
+              {type === "textarea" ? (
+                <textarea
+                  value={formData[name] || ""}
+                  onChange={(e) => handleChange(name, e.target.value)}
+                />
+              ) : (
+                <input
+                  type={type}
+                  value={formData[name] || ""}
+                  onChange={(e) => handleChange(name, e.target.value)}
+                />
+              )}
+            </div>
+          ))}
+        </form>
+        <div className="modal-actions">
+          <button onClick={handleSave}>שמור</button>
+          <button onClick={onClose}>ביטול</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default AddItem;

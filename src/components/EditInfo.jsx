@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from './context';
+import '../css/editInfo.css'; // ייבוא ה-CSS
 
 function EditInfo() {
     const navigate = useNavigate();
@@ -37,6 +38,11 @@ function EditInfo() {
             }));
         }
     };
+    const handleCancel = () => {
+        // Reset the form to the original values or navigate back
+        setUserDetails(contextUser);
+        navigate('/home'); // Or any other action to cancel the editing
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -58,7 +64,6 @@ function EditInfo() {
             if (response.ok) {
                 const data = await response.json();
                 alert(bool === "edit" ? 'User details updated successfully!' : 'User created successfully!');
-                // await data=response.json();
                 setUser(data);
                 navigate('/home');
             } else {
@@ -70,118 +75,121 @@ function EditInfo() {
     };
 
     return (
-        <div className="userForm">
+        <div>
             <h2>{bool === "edit" ? "Edit User Details" : "Create Account"}</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    Username: {userDetails.username}
-                </div>
-                <div>
-                    <label>Name:</label>
-                    <input
-                        type="text"
-                        value={userDetails.name}
-                        onChange={(e) => handleChange(e, 'name')}
-                    />
-                </div>
-                <div>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={userDetails.email}
-                        onChange={(e) => handleChange(e, 'email')}
-                    />
-                </div>
-                <div>
-                    <label>Street:</label>
-                    <input
-                        type="text"
-                        value={userDetails.address?.street}
-                        onChange={(e) => handleChange(e, 'address', 'street')}
-                    />
-                </div>
-                <div>
-                    <label>Suite:</label>
-                    <input
-                        type="text"
-                        value={userDetails.address?.suite}
-                        onChange={(e) => handleChange(e, 'address', 'suite')}
-                    />
-                </div>
-                <div>
-                    <label>City:</label>
-                    <input
-                        type="text"
-                        value={userDetails.address?.city}
-                        onChange={(e) => handleChange(e, 'address', 'city')}
-                    />
-                </div>
-                <div>
-                    <label>Zipcode:</label>
-                    <input
-                        type="text"
-                        value={userDetails.address?.zipcode}
-                        onChange={(e) => handleChange(e, 'address', 'zipcode')}
-                    />
-                </div>
-                <div>
-                    <label>Latitude:</label>
-                    <input
-                        type="text"
-                        value={userDetails.address?.geo?.lat}
-                        onChange={(e) => handleChange(e, 'address', 'geo', 'lat')}
-                    />
-                </div>
-                <div>
-                    <label>Longitude:</label>
-                    <input
-                        type="text"
-                        value={userDetails.address?.geo?.lng}
-                        onChange={(e) => handleChange(e, 'address', 'geo', 'lng')}
-                    />
-                </div>
-                <div>
-                    <label>Phone:</label>
-                    <input
-                        type="text"
-                        value={userDetails.phone}
-                        onChange={(e) => handleChange(e, 'phone')}
-                    />
-                </div>
-                <div>
-                    <label>Website:</label>
-                    <input
-                        type="text"
-                        value={userDetails.website}
-                        onChange={(e) => handleChange(e, 'website')}
-                    />
-                </div>
-                <div>
-                    <label>Company Name:</label>
-                    <input
-                        type="text"
-                        value={userDetails.company?.name}
-                        onChange={(e) => handleChange(e, 'company', 'name')}
-                    />
-                </div>
-                <div>
-                    <label>Company Catch Phrase:</label>
-                    <input
-                        type="text"
-                        value={userDetails.company?.catchPhrase}
-                        onChange={(e) => handleChange(e, 'company', 'catchPhrase')}
-                    />
-                </div>
-                <div>
-                    <label>Company BS:</label>
-                    <input
-                        type="text"
-                        value={userDetails.company?.bs}
-                        onChange={(e) => handleChange(e, 'company', 'bs')}
-                    />
-                </div>
-                <button type="submit">{bool === "edit" ? "Save Changes" : "Create Account"}</button>
-            </form>
+            <div className="userForm">
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        Username: {userDetails.username}
+                    </div>
+                    <div>
+                        <label>Name:</label>
+                        <input
+                            type="text"
+                            value={userDetails.name}
+                            onChange={(e) => handleChange(e, 'name')}
+                        />
+                    </div>
+                    <div>
+                        <label>Email:</label>
+                        <input
+                            type="email"
+                            value={userDetails.email}
+                            onChange={(e) => handleChange(e, 'email')}
+                        />
+                    </div>
+                    <div>
+                        <label>Street:</label>
+                        <input
+                            type="text"
+                            value={userDetails.address?.street}
+                            onChange={(e) => handleChange(e, 'address', 'street')}
+                        />
+                    </div>
+                    <div>
+                        <label>Suite:</label>
+                        <input
+                            type="text"
+                            value={userDetails.address?.suite}
+                            onChange={(e) => handleChange(e, 'address', 'suite')}
+                        />
+                    </div>
+                    <div>
+                        <label>City:</label>
+                        <input
+                            type="text"
+                            value={userDetails.address?.city}
+                            onChange={(e) => handleChange(e, 'address', 'city')}
+                        />
+                    </div>
+                    <div>
+                        <label>Zipcode:</label>
+                        <input
+                            type="text"
+                            value={userDetails.address?.zipcode}
+                            onChange={(e) => handleChange(e, 'address', 'zipcode')}
+                        />
+                    </div>
+                    <div>
+                        <label>Latitude:</label>
+                        <input
+                            type="text"
+                            value={userDetails.address?.geo?.lat}
+                            onChange={(e) => handleChange(e, 'address', 'geo', 'lat')}
+                        />
+                    </div>
+                    <div>
+                        <label>Longitude:</label>
+                        <input
+                            type="text"
+                            value={userDetails.address?.geo?.lng}
+                            onChange={(e) => handleChange(e, 'address', 'geo', 'lng')}
+                        />
+                    </div>
+                    <div>
+                        <label>Phone:</label>
+                        <input
+                            type="text"
+                            value={userDetails.phone}
+                            onChange={(e) => handleChange(e, 'phone')}
+                        />
+                    </div>
+                    <div>
+                        <label>Website:</label>
+                        <input
+                            type="text"
+                            value={userDetails.website}
+                            onChange={(e) => handleChange(e, 'website')}
+                        />
+                    </div>
+                    <div>
+                        <label>Company Name:</label>
+                        <input
+                            type="text"
+                            value={userDetails.company?.name}
+                            onChange={(e) => handleChange(e, 'company', 'name')}
+                        />
+                    </div>
+                    <div>
+                        <label>Company Catch Phrase:</label>
+                        <input
+                            type="text"
+                            value={userDetails.company?.catchPhrase}
+                            onChange={(e) => handleChange(e, 'company', 'catchPhrase')}
+                        />
+                    </div>
+                    <div>
+                        <label>Company BS:</label>
+                        <input
+                            type="text"
+                            value={userDetails.company?.bs}
+                            onChange={(e) => handleChange(e, 'company', 'bs')}
+                        />
+                    </div>
+                    <button type="submit">{bool === "edit" ? "Save Changes" : "Create Account"}</button>
+                    <button type="button" onClick={handleCancel} className="cancelButton">Cancel</button>
+                </form>
+            </div>
         </div>
     );
 }

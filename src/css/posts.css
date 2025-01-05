@@ -122,3 +122,187 @@ textarea:focus {
 ::-webkit-scrollbar-thumb:hover {
     background: #004a45;
 }
+
+
+
+.postsElements.modal-open {
+    overflow: hidden; /* נעילת גלילה */
+  }
+  
+  .add-post-btn {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 2rem;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal h2 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .modal input, .modal textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .modal-buttons button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .modal-buttons button:first-child {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .modal-buttons button:last-child {
+    background-color: #f44336;
+    color: white;
+  }
+  .post-details {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 300px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .post-details h4 {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  
+  .post-details p {
+    margin-bottom: 20px;
+  }
+  
+  .post-details .actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .post-details button {
+    padding: 8px 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .post-details button:hover {
+    background: #0056b3;
+  }
+  
+  .post-details .close-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .post-details {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 300px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .post-details h4 {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  
+  .post-details p {
+    margin-bottom: 20px;
+  }
+  
+  .post-details .actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .post-details button {
+    padding: 8px 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .post-details button:hover {
+    background: #0056b3;
+  }
+  
+  .post-details .close-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  
