@@ -1,110 +1,85 @@
-import React, { useState, useRef, useContext } from "react";
-import { UserContext } from './context';
-// function AddItem(props) {
-//     const [isAdding, setIsAdding] = useState(false);
-//     const newTaskRef = useRef(null);
-//     const { user } = useContext(UserContext);
+import React, { useState } from "react";
+import '../css/addItem.css'
+const AddItem = ({ fields, initialObject, type, setData }) => {
+  const [formData, setFormData] = useState(initialObject);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
-
-//     const handleAddItem = () => {
-//         const newText = newTaskRef.current.value;
-//         if (!newText) return;
-
-//         const newTaskObj = {
-//             userId: user.id,
-//             title: newText,
-//             completed: false,
-//         };
-
-//         fetch(`http://localhost:3012/${props.type}`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify(newTaskObj),
-//         })
-//             .then(response => response.json())
-//             .then(newTaskData => {
-//                 props.setMyItem(prevTodos => [...prevTodos, newTaskData]);
-
-//                 newTaskRef.current.value = '';
-//                 setIsAdding(false);
-//             })
-//             .catch(err => console.error(`Error adding new ${props.type}:`, err));
-//     };
-
-//     return (
-//         <>
-//             <button
-//                 onClick={() => setIsAdding(!isAdding)}
-//                 style={{ fontSize: '20px', marginBottom: '10px', padding: '5px 10px' }}
-//             >
-//                 {isAdding ? 'Cancel' : '+'}
-//             </button>
-
-//             {isAdding && (
-//                 <div>
-//                     <input
-//                         type="text"
-//                         ref={newTaskRef}
-//                         placeholder="Type a new task..."
-//                         style={{ padding: '5px', marginRight: '10px' }}
-//                     />
-//                     <button onClick={handleAddItem} style={{ padding: '5px 10px' }}>
-//                         Submit
-//                     </button>
-//                 </div>
-//             )}
-//         </>
-//     )
-// }
-// export default AddItem;
-import "../css/modal.css"; // הוספת עיצוב לחלונית הקופצת
-
-const AddItem = ({ fields, itemType, isOpen, onClose, onSave }) => {
-  const [formData, setFormData] = useState({});
-
-  const handleChange = (fieldName, value) => {
-    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
-  const handleSave = () => {
-    onSave(formData);
-    setFormData({});
-    onClose();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch(`http://localhost:3012/${type}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const newItem = await response.json();
+    setData((prev) => [newItem, ...prev]);
+    setIsOpenModal(false);
+    setFormData(initialObject); // Reset form fields
   };
 
-  if (!isOpen) return null;
+  const handleCancel = () => {
+    setIsOpenModal(false);
+    setFormData(initialObject); // Reset form fields
+  };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>הוסף {itemType}</h2>
-        <form>
-          {fields.map(({ name, type }) => (
-            <div key={name} className="form-group">
-              <label>{name}</label>
-              {type === "textarea" ? (
-                <textarea
-                  value={formData[name] || ""}
-                  onChange={(e) => handleChange(name, e.target.value)}
-                />
-              ) : (
-                <input
-                  type={type}
-                  value={formData[name] || ""}
-                  onChange={(e) => handleChange(name, e.target.value)}
-                />
-              )}
-            </div>
-          ))}
-        </form>
-        <div className="modal-actions">
-          <button onClick={handleSave}>שמור</button>
-          <button onClick={onClose}>ביטול</button>
+    <>
+      {!isOpenModal ? (
+        <button className="add-post-btn" onClick={() => setIsOpenModal(true)}>
+          +
+        </button>
+      ) : (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <form onSubmit={handleSubmit} className="add-item-form">
+              {fields.map(({ name, inputType }) => (
+                <div key={name} className="form-group">
+                  <label htmlFor={name}>{name}</label>
+                  {inputType !== "textArea" ? (
+                    <input
+                      type={inputType}
+                      id={name}
+                      value={formData[name] || ""}
+                      onChange={(e) => handleChange(name, e.target.value)}
+                      className="input-underline"
+                    />
+                  ) : (
+                    <textarea
+                      id={name}
+                      value={formData[name] || ""}
+                      onChange={(e) => handleChange(name, e.target.value)}
+                      className="input-underline"
+                    ></textarea>
+                  )}
+                </div>
+              ))}
+              <div className="form-actions">
+                <button type="submit" className="submit-button">
+                  Submit
+                </button>
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

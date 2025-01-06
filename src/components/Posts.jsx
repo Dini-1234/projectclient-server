@@ -149,6 +149,7 @@ import Post from "./Post";
 import Search from "./Search";
 import '../css/posts.css';
 import { UserContext } from './context';
+import AddItem from "./AddItem";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -160,6 +161,8 @@ const Posts = () => {
   const [newPostTitle, setNewPostTitle] = useState('');
   const [newPostBody, setNewPostBody] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const postFields = [{ name: "title", inputType: "text" }, { name: "body", inputType: "textArea" }];
+  const initialObject = { userId: user.id };
 
   useEffect(() => {
     fetchPosts()
@@ -232,32 +235,7 @@ const Posts = () => {
       <button onClick={() => setSearch("")}>
         Clear search
       </button>
-
-      <button className="add-post-btn" onClick={() => setIsModalOpen(true)}>+</button>
-
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Add New Post</h2>
-            <input
-              type="text"
-              placeholder="Enter post title"
-              value={newPostTitle}
-              onChange={(e) => setNewPostTitle(e.target.value)}
-            />
-            <textarea
-              placeholder="Enter post body"
-              value={newPostBody}
-              onChange={(e) => setNewPostBody(e.target.value)}
-            />
-            <div className="modal-buttons">
-              <button onClick={addPost}>Save</button>
-              <button onClick={() => setIsModalOpen(false)}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-
+      <AddItem fields={postFields} initialObject={initialObject} type="posts" setData={setPosts} />
       <div className="container">
         <div className="posts-list">
           {posts.filter(post =>

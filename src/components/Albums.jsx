@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { UserContext } from './context';
 import '../css/album.css';
 import { Link } from 'react-router-dom';
+import AddItem from './AddItem';
 
 const Albums = () => {
   const [loading, setLoading] = useState(false);
@@ -11,6 +12,8 @@ const Albums = () => {
   const [albums, setAlbums] = useState([]);
   const [newAlbumTitle, setNewAlbumTitle] = useState(''); // משתנה מקומי לשם האלבום החדש
   const { user } = useContext(UserContext);
+  const fields = [{ name: "title", inputType: "text" }];
+  const initialObject = { userId: user.id };
 
   useEffect(() => {
     setLoading(true);
@@ -64,17 +67,7 @@ const Albums = () => {
         setSearch={setSearch}
       />
 
-      {/* טופס להוספת אלבום חדש */}
-      <div className="add-album-form">
-        <input
-          type="text"
-          placeholder="Enter album name"
-          value={newAlbumTitle}
-          onChange={(e) => setNewAlbumTitle(e.target.value)}
-        />
-        <button onClick={addAlbum}>Add Album</button>
-      </div>
-
+      <AddItem fields={fields} initialObject={initialObject} setData={setAlbums} type={"albums"} />
       <div className="albums-grid">
         {albums.filter(album =>
           album.title.toLowerCase().includes(search.toLowerCase()) ||

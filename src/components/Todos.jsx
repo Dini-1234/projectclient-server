@@ -14,7 +14,8 @@ const Todos = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [isEditing, setIsEditing] = useState(null);
   const [newTitle, setNewTitle] = useState('');
-
+  const fields=[{name:"title",inputType:"text"}];
+  const initialObject={userId:user.id,completed:false};
   useEffect(() => {
     fetch(`http://localhost:3012/todos?userId=${user.id}`)
       .then(response => response.json())
@@ -89,7 +90,7 @@ const Todos = () => {
 
   return (
     <div>
-      <AddItem setMyItem={setMyTodos} type="todos" />
+      <AddItem fields={fields} initialObject={initialObject} setData={setMyTodos} type="todos" />
       <Search search={search} setSearch={setSearch} />
 
       <div className='todosList'>

@@ -15,37 +15,43 @@ const Photos = () => {
     const [newPhoto, setNewPhoto] = useState({ title: '', url: '' }); // מצב לתמונה חדשה
     const [editingPhoto, setEditingPhoto] = useState(null); // מצב לעריכת תמונה
     const [editData, setEditData] = useState({ title: '', url: '' }); // מצב לשדות עריכה
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(1)
     const { user } = useContext(UserContext);
     const location = useLocation();
     const album = location.state?.album;
-
+    const fields=[{name:"title",inputType:"text"},{name:"url",type:"text"},{name:"thumbnailUrl",type:"text"}];
+    const initialObject={userId:user.id,albumId:album.id}
     useEffect(() => {
         fetchPhotos();
-    }, [user.id]);
+    }, [page]);
 
     const fetchPhotos = async () => {
         if (loading) return;
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:3012/photos?albumId=${album.id}`);
-            const data = await response.json();
-
-            // setPhotos((prev) => [...prev, ...data]);
-            setPhotos(data);
+            const response = await fetch(`http://localhost:3012/photos?albumId=${album.id}&_page=${page}`);
+            const result = await response.json();
+            result.data.length >=10 ? setHasMore(true) : setHasMore(false)
+            setPhotos((prev) => [...prev, ...result.data]);
+            // setPhotos(result.data);
 
         } catch (error) {
+
             console.error("Error fetching photos:", error);
         } finally {
             setLoading(false);
         }
     };
-
-    // const handleScroll = (e) => {
-    //     const { scrollTop, scrollHeight, clientHeight } = e.target;
-    //     if (scrollTop + clientHeight >= scrollHeight - 100 && hasMore && !loading) {
-    //         setPage((prev) => prev + 1);
-    //     }
-    // };
+    const loadPhotos = () => {
+        setPage(prev => prev + 1);
+    }
+    const handleScroll = (e) => {
+        const { scrollTop, scrollHeight, clientHeight } = e.target;
+        if (scrollTop + clientHeight >= scrollHeight - 100 && !loading) {
+            setPage((prev) => prev + 1);
+        }
+    };
 
     // פונקציה להוספת תמונה חדשה
     const addPhoto = async () => {
@@ -136,23 +142,7 @@ const Photos = () => {
             <h1>{album.title}</h1>
 
             {/* טופס להוספת תמונה */}
-            <div className="add-photo-form">
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="Enter photo title"
-                    value={newPhoto.title}
-                    onChange={(e) => setNewPhoto({ ...newPhoto, title: e.target.value })}
-                />
-                <input
-                    type="text"
-                    name="url"
-                    placeholder="Enter photo URL"
-                    value={newPhoto.url}
-                    onChange={(e) => setNewPhoto({ ...newPhoto, url: e.target.value })}
-                />
-                <button onClick={addPhoto}>Add Photo</button>
-            </div>
+           <AddItem  fields={fields} initialObject={initialObject} type={"photos"}setData={setPhotos}/>
 
             {/* חלונית קופצת לעריכת תמונה */}
             {editingPhoto && (
@@ -193,6 +183,7 @@ const Photos = () => {
                 {loading && <div>Loading more photos...</div>}
                 {/* {!hasMore && <p>No more posts to load.</p>} */}
             </div>
+            {hasMore?<div onClick={loadPhotos}>load more</div>:<div>no more photos</div>}
         </div>
     );
 };
