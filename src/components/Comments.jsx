@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserContext } from './context';
 import Delete from "./Delete";
-
+import AddItem from "./AddItem";
 function Comments({ postId }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
@@ -34,7 +34,7 @@ function Comments({ postId }) {
     const commentData = {
       postId: postId,
       body: newComment,
-      email: user.email
+      email: (user)?(user?.email):"unknown"
     };
 
     try {
@@ -56,15 +56,14 @@ function Comments({ postId }) {
   return (
     <div>
       <h3>Comments:</h3>
-
       {loading ? (
         <p>Loading comments...</p>
       ) : (
         comments.map((comment) => (
           <div key={comment.id} className="comment">
-            <p>{comment.body}</p>
             <p>owner: {comment.email}</p>
-            {comment.email == user.email && <>
+            <p>{comment.body}</p>
+            {comment.email == user?.email && <>
               <Delete
                 setMyItem={setComments}
                 id={comment.id}
@@ -84,6 +83,7 @@ function Comments({ postId }) {
           placeholder="Type a comment..."
         />
         <button onClick={handleAddComment}>Add comment</button>
+
       </div>
     </div >
   );

@@ -18,8 +18,9 @@
     width: 400px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
+  
   label{
-    color: #000000;
+    color: #252222;
   }
   .input-underline {
     border: none;

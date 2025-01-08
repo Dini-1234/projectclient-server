@@ -6,8 +6,8 @@ const Home = () => {
 
   return (
     <div>
-            <h5>Hello {user.name}!!!😊</h5>
-            </div>
+      <h5>Hello {user ? user.name : "Guest user"}!!!</h5>
+    </div>
   );
 };
 

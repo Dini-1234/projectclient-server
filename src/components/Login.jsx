@@ -23,7 +23,6 @@ const Login = () => {
         if (foundUser) {
           localStorage.setItem('user', JSON.stringify(foundUser));
           setUser(foundUser);
-          console.log(foundUser);
           navigate('/home');
 
           setError('');
@@ -38,40 +37,47 @@ const Login = () => {
     }
   };
 
+  
+
   return (
-    <div className='loginForm'>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={userLogin.name}
-            onChange={(e) => setUserLogin(prev => ({ ...prev, name: e.target.value }))}
-            placeholder="Type username..."
-            required
-            style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
-          />
+    <>
+      <Link to="/home">
+        <button className="nav-button">🏠</button>
+      </Link>      <div className='loginForm'>
+        <h2>Login</h2>
+        <form onSubmit={handleLogin}>
+          <div>
+            <label>Username:</label>
+            <input
+              type="text"
+              value={userLogin.name}
+              onChange={(e) => setUserLogin(prev => ({ ...prev, name: e.target.value }))}
+              placeholder="Type username..."
+              required
+              style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
+            />
+          </div>
+          <div>
+            <label>Password:</label>
+            <input
+              type="password"
+              value={userLogin.password}
+              onChange={(e) => setUserLogin(prev => ({ ...prev, password: e.target.value }))}
+              placeholder="Type password..."
+              required
+              style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
+            />
+          </div>
+          <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px' }}>
+            Login
+          </button>
+        </form>
+        {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
+        <div className="toSignUp">Don&apos;t have an account?
+          <Link to="/signUp"> Create an account</Link>
         </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={userLogin.password}
-            onChange={(e) => setUserLogin(prev => ({ ...prev, password: e.target.value }))}
-            placeholder="Type password..."
-            required
-            style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
-          />
-        </div>
-        <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px' }}>
-          Login
-        </button>
-      </form>
-      {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
-      <Link to="/signUp"><div>Create an account</div></Link>
-    </div>
+      </div>
+    </>
   );
 };
-
 export default Login;

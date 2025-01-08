@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import Search from './Search';
 import AddItem from './AddItem';
 import Delete from './Delete';
-import Edit from './Edit';
 import { UserContext } from './context';
 import '../css/todos.css'
+import EditItem from './EditItem';
 const Todos = () => {
   const { user } = useContext(UserContext);
   const [myTodos, setMyTodos] = useState([]);
@@ -13,9 +13,10 @@ const Todos = () => {
   const [sortField, setSortField] = useState('title');
   const [sortOrder, setSortOrder] = useState('asc');
   const [isEditing, setIsEditing] = useState(null);
-  const [newTitle, setNewTitle] = useState('');
-  const fields=[{name:"title",inputType:"text"}];
-  const initialObject={userId:user.id,completed:false};
+
+  const fields = [{ name: "title", inputType: "text" }];
+  const initialObject = { userId: user.id, completed: false };
+
   useEffect(() => {
     fetch(`http://localhost:3012/todos?userId=${user.id}`)
       .then(response => response.json())
@@ -29,9 +30,7 @@ const Todos = () => {
       });
   }, [user.id]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+
 
   const handleCheckboxChange = (taskId) => {
     setMyTodos(prev => {
@@ -53,27 +52,6 @@ const Todos = () => {
     }).catch(err => console.error('Error updating task:', err));
   };
 
-  const saveEdit = (taskId) => {
-    const updatedTask = { ...myTodos.find(todo => todo.id === taskId), title: newTitle };
-
-    fetch(`http://localhost:3012/todos/${taskId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedTask),
-    })
-      .then(() => {
-        setMyTodos(prev =>
-          prev.map(todo =>
-            todo.id === taskId ? { ...todo, title: newTitle } : todo
-          )
-        );
-        setIsEditing(null);
-      })
-      .catch(err => console.error('Error updating task:', err));
-  };
-
   const sortTodos = (todos) => {
     return todos.sort((a, b) => {
       if (sortOrder === 'asc') {
@@ -87,7 +65,9 @@ const Todos = () => {
       }
     });
   };
-
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
       <AddItem fields={fields} initialObject={initialObject} setData={setMyTodos} type="todos" />
@@ -115,32 +95,31 @@ const Todos = () => {
             )
             .map((task, index) => (
               <li key={task.id}>
-                {isEditing === task.id ? (
-                  <div className='task-text'>
-                    <input
-                      type="text"
-                      value={newTitle}
-                      onChange={(e) => setNewTitle(e.target.value)}
+                <div className="task-actions">
+                  {isEditing === task.id ? (
+                    <EditItem
+                      item={task}
+                      fields={[{ name: "title", inputType: "text" }]} // Define fields dynamically
+                      type="todos"
+                      setData={setMyTodos}
+                      setIsEditing={setIsEditing}
                     />
-                    <button onClick={() => saveEdit(task.id)}>Save</button>
-                    <button onClick={() => setIsEditing(null)}>Cancel</button>
-                  </div>
-                ) : (
-                  <>
-                    <input
-                      type="checkbox"
-                      checked={task.completed}
-                      onChange={() => handleCheckboxChange(task.id)}
-                    />
-                    <div className='task-text'>
-                      {index + 1}. {task.title}
-                    </div>
-                    <div className="task-actions">
+                  ) : (
+                    <>
+                      <input
+                        type="checkbox"
+                        checked={task.completed}
+                        onChange={() => handleCheckboxChange(task.id)}
+                      />
+                      <div className="task-text">{task.title}</div>
+                      <button onClick={() => {
+                        setIsEditing(task.id);
+                      }}>Edit</button>
                       <Delete setMyItem={setMyTodos} id={task.id} type="todos" />
-                      <Edit myTodos={myTodos} id={task.id} setIsEditing={setIsEditing} setNewTitle={setNewTitle} />
-                    </div>
-                  </>
-                )}
+                    </>
+                  )}
+                </div>
+                
               </li>
             ))}
         </ul>

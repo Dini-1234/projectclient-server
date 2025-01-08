@@ -1,6 +1,6 @@
 .userForm {
     margin: 0 auto;
-    max-width: 900px; /* רוחב המקסימום */
+    max-width: 900px;
     padding: 20px;
     background-color: rgba(220, 220, 220, 0.3);
     border-radius: 8px;
@@ -10,29 +10,33 @@
     line-height: 1.6;
     display: flex;
     justify-content: space-around;
-    gap: 20px; /* רווחים בין העמודות */
+    gap: 20px;
 }
 
- h2 {
+h2 {
     text-align: center;
     font-size: 1.8rem;
-    color: #ffffff;
+    color: #252222;
     margin-bottom: 20px;
-    grid-column: span 2; /* כותרת שתתפוס את שתי העמודות */
+    grid-column: span 2;
+}
+
+.title {
+    color: #f0f0f0;
 }
 
 .userForm form {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* כל עמודה חצי */
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
     width: 100%;
-    margin: 0; /* ביטול מרווחים מיותרים */
+    margin: 0;
 }
 
 .userForm div {
     display: flex;
     flex-direction: column;
-    margin-bottom: 0; /* ביטול רווחים מיותרים בין השדות */
+    margin-bottom: 0;
 }
 
 .userForm label {
@@ -68,7 +72,7 @@
     font-size: 1.2rem;
     transition: background-color 0.3s;
     width: 100%;
-    grid-column: span 2; /* כפתור שיתפוס את שתי העמודות */
+    grid-column: span 2;
 }
 
 .cancelButton {

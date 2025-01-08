@@ -4,7 +4,7 @@ const Search = (props) => {
 
     return (
         <>
-            <label htmlFor="search">Search</label>
+      {/* <label className="searchText" htmlFor="search">Search</label> */}
             <input
                 type="text"
                 placeholder="search..."

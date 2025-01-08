@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '../css/login.css';
 import { useContext } from 'react';
 import { UserContext } from './context';
-
 
 function SignUp() {
     const [userSignUp, setUserSignUp] = useState({ name: '', password: '', confirmPassword: '' });
@@ -28,9 +27,8 @@ function SignUp() {
                 setError('Username already exists');
             } else {
                 alert('User created successfully!');
-                setUser({ username: name, website: password })
+                setUser({ username: name, website: password });
                 navigate('/editInfoNewUser', { state: { bool: "add" } });
-
             }
         } catch (err) {
             setError('An error occurred while connecting');
@@ -38,48 +36,54 @@ function SignUp() {
     };
 
     return (
-        <div className="signUpForm">
-            <h2>Sign Up</h2>
-            <form onSubmit={handleSignUp}>
-                <div>
-                    <label>Username:</label>
-                    <input
-                        type="text"
-                        value={userSignUp.name}
-                        onChange={(e) => setUserSignUp(prev => ({ ...prev, name: e.target.value }))}
-                        placeholder="Type username..."
-                        required
-                        style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
-                    />
+        <>
+            <Link to="/home">
+                <button className="nav-button">🏠</button>
+            </Link>
+
+            <div className="loginForm">
+                <h2>Sign Up</h2>
+                <form onSubmit={handleSignUp}>
+                    <div className="form-group">
+                        <label>Username:</label>
+                        <input
+                            type="text"
+                            value={userSignUp.name}
+                            onChange={(e) => setUserSignUp(prev => ({ ...prev, name: e.target.value }))}
+                            placeholder="Type username..."
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Password:</label>
+                        <input
+                            type="password"
+                            value={userSignUp.password}
+                            onChange={(e) => setUserSignUp(prev => ({ ...prev, password: e.target.value }))}
+                            placeholder="Type password..."
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Confirm Password:</label>
+                        <input
+                            type="password"
+                            value={userSignUp.confirmPassword}
+                            onChange={(e) => setUserSignUp(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                            placeholder="Confirm password..."
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="login-button">
+                        Sign Up
+                    </button>
+                </form>
+                {error && <div className="error-message">{error}</div>}
+                <div className="toLogin">Already have an account?
+                    <Link to="/login"> Please login</Link>
                 </div>
-                <div>
-                    <label>Password:</label>
-                    <input
-                        type="password"
-                        value={userSignUp.password}
-                        onChange={(e) => setUserSignUp(prev => ({ ...prev, password: e.target.value }))}
-                        placeholder="Type password..."
-                        required
-                        style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
-                    />
-                </div>
-                <div>
-                    <label>Confirm Password:</label>
-                    <input
-                        type="password"
-                        value={userSignUp.confirmPassword}
-                        onChange={(e) => setUserSignUp(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                        placeholder="Confirm password..."
-                        required
-                        style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
-                    />
-                </div>
-                <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px' }}>
-                    Sign Up
-                </button>
-            </form>
-            {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
-        </div>
+            </div>
+        </>
     );
 }
 

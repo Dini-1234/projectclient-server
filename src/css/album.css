@@ -1,66 +1,62 @@
 /* מבנה גריד */
 .albums-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
 }
 
 /* עיצוב אלבום */
 .album {
-    border: 3px solid darkturquoise;
-    padding: 20px;
-    text-align: center;
-    background-color: white;
-    transition: background-color 0.3s, color 0.3s;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    color: black;
+  border: 3px solid darkturquoise;
+  padding: 20px;
+  text-align: center;
+  background-color: white;
+  transition: background-color 0.3s, color 0.3s, opacity 0.3s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  color: black;
+  background-image: url('../pictures/folder.png'); /* תמונת רקע */
+  background-size: cover;
+  background-position: center;
+  height: 200px; /* הגדרת גובה קבוע */
+}
+
+/* טקסט בתוך האלבום (הכותרת צמודה לתחתית האלבום) */
+.album p {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 18px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5); /* רקע כהה לכותרת */
+  padding: 10px;
+  text-align: center;
+  margin: 0;
 }
 
 /* טקסט בלחיצה */
 .album::after {
-    content: 'CLICK TO VIEW';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 16px;
-    color: rgb(48, 42, 42);
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-/* עיצוב בריחוף */
-.album:hover {
-    background-color: lightgray;
-    color: darkgray;
+  content: 'CLICK TO VIEW';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  color: transparent;
 }
 
 .album:hover::after {
-    opacity: 1;
+  opacity: 1; /* הצגת טקסט CLICK TO VIEW בריחוף */
 }
-.add-album-form {
-    margin: 20px 0;
-    display: flex;
-    gap: 10px;
-  }
-  
-  .add-album-form input {
-    padding: 10px;
-    width: 250px;
-  }
-  
-  .add-album-form button {
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .add-album-form button:hover {
-    background-color: #45a049;
-  }
-  
+
+/* עיצוב בריחוף לכפתור 'CLICK TO VIEW' */
+.album:hover::after {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  opacity: 1;
+}

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from './context';
-import '../css/editInfo.css'; // ייבוא ה-CSS
+import '../css/editInfo.css';
 
 function EditInfo() {
     const navigate = useNavigate();
@@ -39,9 +39,8 @@ function EditInfo() {
         }
     };
     const handleCancel = () => {
-        // Reset the form to the original values or navigate back
         setUserDetails(contextUser);
-        navigate('/home'); // Or any other action to cancel the editing
+        navigate('/home');
     };
 
     const handleSubmit = async (e) => {
@@ -76,7 +75,7 @@ function EditInfo() {
 
     return (
         <div>
-            <h2>{bool === "edit" ? "Edit User Details" : "Create Account"}</h2>
+            <h2 className='title'>{bool === "edit" ? "Edit User Details" : "Create Account"}</h2>
             <div className="userForm">
                 <form onSubmit={handleSubmit}>
                     <div>
