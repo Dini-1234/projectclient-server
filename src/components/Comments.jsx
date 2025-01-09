@@ -9,7 +9,6 @@ function Comments({ postId }) {
   const { user } = useContext(UserContext);
   const [isEditing, setIsEditing] = useState(false);
 
-
   useEffect(() => {
     fetchComments();
   }, [postId]);
@@ -34,7 +33,7 @@ function Comments({ postId }) {
     const commentData = {
       postId: postId,
       body: newComment,
-      email: (user)?(user?.email):"unknown"
+      email: (user) ? (user?.email) : "unknown"
     };
 
     try {
@@ -61,7 +60,7 @@ function Comments({ postId }) {
       ) : (
         comments.map((comment) => (
           <div key={comment.id} className="comment">
-            <p>owner: {comment.email}</p>
+            <b>owner: {comment.email}</b>
             <p>{comment.body}</p>
             {comment.email == user?.email && <>
               <Delete
@@ -69,7 +68,7 @@ function Comments({ postId }) {
                 id={comment.id}
                 type="comments"
               />
-              <button onClick={() => setIsEditing(true)}>Edit comment</button>
+              <div onClick={() => setIsEditing(true)}>✏️</div>
             </>}
           </div>
         ))

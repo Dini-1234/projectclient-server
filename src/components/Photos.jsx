@@ -45,7 +45,7 @@ const Photos = () => {
             setLoading(false);
         }
     };
-    
+
 
     const loadPhotos = () => {
         setPage(prev => prev + 1);

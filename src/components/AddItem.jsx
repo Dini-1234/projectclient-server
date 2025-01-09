@@ -1,35 +1,55 @@
 import React, { useState } from "react";
-import '../css/addItem.css'
+import "../css/addItem.css";
+
 const AddItem = ({ fields, initialObject, type, setData }) => {
   const [formData, setFormData] = useState(initialObject);
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
+    setErrorMessage(""); // Clear error message on input change
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(`http://localhost:3012/${type}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
 
-    const newItem = await response.json();
-    setData((prev) => [newItem, ...prev]);
-    setIsOpenModal(false);
-    setFormData(initialObject); // Reset form fields
+    // Check if any field is empty
+    const hasEmptyFields = fields.some(({ name }) => !formData[name]?.trim());
+    if (hasEmptyFields) {
+      setErrorMessage("Please fill out all fields.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3012/${type}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add item");
+      }
+
+      const newItem = await response.json();
+      setData((prev) => [newItem, ...prev]);
+      setIsOpenModal(false);
+      setFormData(initialObject); // Reset form fields
+    } catch (error) {
+      setErrorMessage("An error occurred. Please try again.");
+    }
   };
 
   const handleCancel = () => {
     setIsOpenModal(false);
     setFormData(initialObject); // Reset form fields
+    setErrorMessage(""); // Clear error message
   };
 
   return (
@@ -63,6 +83,9 @@ const AddItem = ({ fields, initialObject, type, setData }) => {
                   )}
                 </div>
               ))}
+              {errorMessage && (
+                <p className="error-message">{errorMessage}</p>
+              )}
               <div className="form-actions">
                 <button type="submit" className="submit-button">
                   Submit

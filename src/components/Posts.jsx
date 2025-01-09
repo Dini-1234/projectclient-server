@@ -52,6 +52,7 @@ const Posts = () => {
           color: viewMyPosts ? 'white' : ''
         }}
       >
+
         {viewMyPosts ? 'view all posts' : 'view my posts'}
       </button>}
       <button onClick={() => setSearch("")}>
@@ -80,7 +81,7 @@ const Posts = () => {
         </div>
 
         <div className="post-details">
-          {selectedPost ? (
+          {selectedPost && (!viewMyPosts || (selectedPost.userId === user.id)) ? (
             <Post post={selectedPost} setPosts={setPosts} setSelectedPost={setSelectedPost} />
           ) : (
             <div className="no-post">Nothing to show here</div>

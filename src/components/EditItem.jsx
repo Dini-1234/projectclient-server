@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../css/editItem.css";
 
-const EditItem = ({ item, fields, type, setData, setIsEditing }) => {
+const EditItem = ({ item, fields, type, setData, setIsEditing, setView = (x) => { } }) => {
   const [formData, setFormData] = useState(item);
 
   const handleChange = (field, value) => {
@@ -31,7 +31,9 @@ const EditItem = ({ item, fields, type, setData, setIsEditing }) => {
         prev.map((dataItem) =>
           dataItem.id === item.id ? updatedItem : dataItem
         )
+
       );
+      setView(updatedItem)
       setIsEditing(null); // Exit editing mode
     } catch (error) {
       console.error("Error updating item:", error);

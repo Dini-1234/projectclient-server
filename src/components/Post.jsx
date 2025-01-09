@@ -1,18 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from './context';
 import Delete from './Delete';
 import Comments from './Comments';
-import EditItem from './EditItem'; // שימוש ב-EditItem הגלובלי
+import EditItem from './EditItem';
 
 const Post = ({ post, setPosts, setSelectedPost }) => {
     const { user } = useContext(UserContext);
-    const [isEditing, setIsEditing] = useState(false); // מצב עריכה
+    const [isEditing, setIsEditing] = useState(false);
     const [showComments, setShowComments] = useState(false);
-
+    useEffect(() => {
+        setShowComments(false)
+    }, [post])
     const fields = [
         { name: "title", inputType: "text" },
         { name: "body", inputType: "textArea" }
-    ]; 
+    ];
 
     return (
         <div>
@@ -21,14 +23,34 @@ const Post = ({ post, setPosts, setSelectedPost }) => {
                     <h4>{post.title}</h4>
                     <p>{post.body}</p>
                     {post.userId === user?.id && (
-                        <div>
-                            <Delete
-                                setMyItem={setPosts}
-                                id={post.id}
-                                type="posts"
-                                onDelete={() => setSelectedPost(null)} // סגירת הפוסט אחרי מחיקה
-                            />
-                            <button onClick={() => setIsEditing(true)}>Edit post</button>
+                        <div >
+                            <div onClick={() => setSelectedPost(null)}>
+                                {/* <Delete
+                                    setMyItem={setPosts}
+                                    id={post.id}
+                                    type="posts"
+                                /> */}
+                                <Delete
+                                    id={post.id}
+                                    type="posts"
+                                    setMyItem={setPosts}
+                                    onDelete={async (itemId) => {
+                                        const response = await fetch(`http://localhost:3012/comments?postId=${itemId}`);
+                                        const comments = await response.json();
+
+                                        for (const comment of comments) {
+                                            await fetch(`http://localhost:3012/comments/${comment.id}`, {
+                                                method: 'DELETE',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                },
+                                            });
+                                        }
+                                    }}
+                                />
+
+                            </div>
+                            <div onClick={() => setIsEditing(true)}>✏️</div>
                         </div>
                     )}
                 </>
@@ -39,6 +61,7 @@ const Post = ({ post, setPosts, setSelectedPost }) => {
                     type="posts"
                     setData={setPosts}
                     setIsEditing={setIsEditing}
+                    setView={setSelectedPost}
                 />
             )}
 

@@ -53,10 +53,10 @@ const Navigation = () => {
                 </Link> :
                     <>
                         <Link to="/login">
-                            <button className={`nav-button ${buttonColor ? 'pink' : ''}`} onClick={handleRestrictedAccess}>Login</button>
+                            <button className={`nav-button ${buttonColor ? 'pink' : ''}`} >Login</button>
                         </Link>
                         <Link to="/signup">
-                            <button className={`nav-button ${buttonColor ? 'pink' : ''}`} onClick={handleRestrictedAccess}>Sign up</button>
+                            <button className={`nav-button ${buttonColor ? 'pink' : ''}`} >Sign up</button>
                         </Link>
                     </>
                 }

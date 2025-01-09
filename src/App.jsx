@@ -29,9 +29,7 @@ const App = () => {
   return (
     <div>
       <Router>
-
         <Navigation />
-
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
@@ -39,8 +37,8 @@ const App = () => {
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/posts" element={<Posts />} />
           <Route path="/albums" element={<Albums />} />
-          <Route path="/tasks" element={<Todos />} />
           <Route path="/albums/:id" element={<Photos />} />
+          <Route path="/tasks" element={<Todos />} />
           <Route path="/editInfo" element={<EditInfo />} />
           <Route path="/editInfoNewUser" element={<EditInfo />} />
           <Route path="/info" element={<Info />} />
