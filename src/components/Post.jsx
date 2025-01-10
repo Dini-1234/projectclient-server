@@ -25,30 +25,11 @@ const Post = ({ post, setPosts, setSelectedPost }) => {
                     {post.userId === user?.id && (
                         <div >
                             <div onClick={() => setSelectedPost(null)}>
-                                {/* <Delete
-                                    setMyItem={setPosts}
-                                    id={post.id}
-                                    type="posts"
-                                /> */}
                                 <Delete
+                                    setMyItem={setPosts}
                                     id={post.id}
                                     type="posts"
-                                    setMyItem={setPosts}
-                                    onDelete={async (itemId) => {
-                                        const response = await fetch(`http://localhost:3012/comments?postId=${itemId}`);
-                                        const comments = await response.json();
-
-                                        for (const comment of comments) {
-                                            await fetch(`http://localhost:3012/comments/${comment.id}`, {
-                                                method: 'DELETE',
-                                                headers: {
-                                                    'Content-Type': 'application/json',
-                                                },
-                                            });
-                                        }
-                                    }}
                                 />
-
                             </div>
                             <div onClick={() => setIsEditing(true)}>✏️</div>
                         </div>
