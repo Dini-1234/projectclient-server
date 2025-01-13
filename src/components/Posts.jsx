@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import Post from "./Post";
-import Search from "./Search";
 import '../css/posts.css';
 import { UserContext } from './context';
 import AddItem from "./AddItem";
@@ -44,7 +43,9 @@ const Posts = () => {
         onChange={(e) => setSearch(e.target.value)}
         style={{ padding: '5px', marginBottom: '10px' }}
       />
-
+      <button onClick={() => setSearch("")}>
+        Clear search
+      </button>
       {user && <button
         onClick={() => setViewMyPosts(prev => !prev)}
         style={{
@@ -55,9 +56,6 @@ const Posts = () => {
 
         {viewMyPosts ? 'view all posts' : 'view my posts'}
       </button>}
-      <button onClick={() => setSearch("")}>
-        Clear search
-      </button>
       {user && <AddItem fields={postFields} initialObject={initialObject} type="posts" setData={setPosts} />}      <div className="container">
         <div className="posts-list">
           {posts.filter(post =>

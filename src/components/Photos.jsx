@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import Search from "./Search";
 import '../css/photos.css';
 import AddItem from "./AddItem";
 import { UserContext } from './context';
@@ -10,7 +9,6 @@ import EditItem from "./EditItem"; // קישור לקומפוננטת העריכ
 const Photos = () => {
     const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [search, setSearch] = useState('');
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(1);
     const [editingPhotoId, setEditingPhotoId] = useState(null); // ID של התמונה שנמצאת בעריכה
@@ -35,7 +33,7 @@ const Photos = () => {
         try {
             const response = await fetch(`http://localhost:3012/photos?albumId=${album.id}&_page=${page}`);
             const result = await response.json();
-            if (result.length < 10) {
+            if (result.data.length < 10) {
                 setHasMore(false);
             }
             setPhotos((prev) => [...prev, ...result.data]);
@@ -55,7 +53,7 @@ const Photos = () => {
 
     return (
         <div>
-            <h1>{album.title}</h1>
+            <h1 className='albumName'>{album.title}</h1>
 
             <AddItem fields={fields} initialObject={initialObject} type="photos" setData={setPhotos} />
 

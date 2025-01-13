@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import '../css/navigation.css';
 import { useContext, useState } from 'react';
 import { UserContext } from './context';
+import '../css/navigation.css'
 
 const Navigation = () => {
     const location = useLocation();
@@ -10,12 +10,12 @@ const Navigation = () => {
     const [buttonColor, setButtonColor] = useState(false);
     const [message, setMessage] = useState('');
 
-    if (location.pathname === '/login' || location.pathname === '/signUp' || location.pathname === '/editInfoNewUser') {
+    if (location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/editInfoNewUser') {
         return null;
     }
 
     const handleBack = () => {
-        if (location.pathname !== '/login' || location.pathname === '/signUp') {
+        if (location.pathname !== '/login' || location.pathname === '/signup') {
             navigate(-1);
         }
     };
@@ -27,7 +27,7 @@ const Navigation = () => {
             setButtonColor(true);
             setTimeout(() => {
                 setButtonColor(false);
-                setMessage('')
+                setMessage('');
             }, 1000);
         }
     };
@@ -36,34 +36,38 @@ const Navigation = () => {
         <>
             <nav className="navigation">
                 <button className="nav-button" onClick={handleBack}>↪️</button>
-                <Link to="/home">
+                <Link to={`/users/${user ? user.id : 'guest'}/home`}>
                     <button className="nav-button">🏠</button>
                 </Link>
-                <Link to="/posts">
+                <Link to={`/users/${user ? user.id : 'guest'}/posts`}>
                     <button className="nav-button">Posts</button>
                 </Link>
-                <Link to="/albums">
-                    <button className="nav-button" onClick={handleRestrictedAccess}>Albums</button>
+                <Link to={`/users/${user ? user.id : ''}/albums`} onClick={handleRestrictedAccess}>
+                    <button className="nav-button">Albums</button>
                 </Link>
-                <Link to="/tasks">
-                    <button className="nav-button" onClick={handleRestrictedAccess}>Tasks</button>
+                <Link to={`/users/${user ? user.id : ''}/tasks`} onClick={handleRestrictedAccess}>
+                    <button className="nav-button">Tasks</button>
+                </Link>
+                <Link to={`/users/${user ? user.id : ''}/info`} onClick={handleRestrictedAccess}
+                >
+                    <button className="nav-button">Info</button>
                 </Link>
                 {user ? <Link to="/login">
-                    <button className="nav-button" onClick={() => { localStorage.removeItem('user'); setUser() }}>Log out</button>
+                    <button className="nav-button" onClick={() => { localStorage.removeItem('user'); setUser(null); }}>Log out</button>
                 </Link> :
                     <>
                         <Link to="/login">
-                            <button className={`nav-button ${buttonColor ? 'pink' : ''}`} >Login</button>
+                            <button className={`nav-button ${buttonColor ? 'pink' : ''}`}>Login</button>
                         </Link>
                         <Link to="/signup">
-                            <button className={`nav-button ${buttonColor ? 'pink' : ''}`} >Sign up</button>
+                            <button className={`nav-button ${buttonColor ? 'pink' : ''}`}>Sign up</button>
                         </Link>
                     </>
                 }
-                <Link to="/info">
-                    <button className="nav-button" onClick={handleRestrictedAccess}>Info</button>
-                </Link>
-                <div>Hello {user ? user.name : "Guest user"}!</div>
+                {/* <Link to={`/users/${user ? user.id : ''}/info`} onClick={handleRestrictedAccess}>
+                    <button className="nav-button">Info</button>
+                </Link> */}
+                <div className='userName'>Hello {user ? user.name : "Guest user"}!</div>
             </nav>
 
             {message && (

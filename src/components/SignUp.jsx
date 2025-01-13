@@ -37,7 +37,7 @@ function SignUp() {
 
     return (
         <>
-            <Link to="/home">
+            <Link to="/users/guest/home">
                 <button className="nav-button">🏠</button>
             </Link>
 

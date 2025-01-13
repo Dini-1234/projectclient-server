@@ -62,9 +62,8 @@ function EditInfo() {
                 });
             if (response.ok) {
                 const data = await response.json();
-                alert(bool === "edit" ? 'User details updated successfully!' : 'User created successfully!');
                 setUser(data);
-                navigate('/home');
+                navigate(`/users/${userDetails.id}/home`);
             } else {
                 alert('Failed to save user details.');
             }

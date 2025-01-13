@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Search from './Search';
 import AddItem from './AddItem';
 import Delete from './Delete';
 import { UserContext } from './context';
@@ -71,8 +70,16 @@ const Todos = () => {
   return (
     <div>
       <AddItem fields={fields} initialObject={initialObject} setData={setMyTodos} type="todos" />
-      <Search search={search} setSearch={setSearch} />
-
+      <input
+        type="text"
+        placeholder="search..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        style={{ padding: '5px', marginBottom: '10px' }}
+      />
+      <button onClick={() => setSearch("")}>
+        Clear search
+      </button>
       <div className='todosList'>
         <select onChange={(e) => setSortField(e.target.value)} value={sortField}>
           <option value="title">Title</option>

@@ -3,7 +3,7 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
   background-color: #787474;
-  color: #292525;
+  color: #312e2e;
 }
 
 .container {
@@ -115,7 +115,7 @@ textarea:focus {
 }
 
 .add-post-btn {
-  background-color: #4CAF50;
+  background-color: #52bcea;
   color: white;
   font-size: 2rem;
   border: none;
@@ -179,7 +179,7 @@ textarea:focus {
 }
 
 .modal-buttons button:first-child {
-  background-color: #4CAF50;
+  background-color: #52bcea;
   color: white;
 }
 
@@ -243,4 +243,17 @@ textarea:focus {
   margin: 1em;
   background-color: #eae4e4;
   padding: 2px;
+}
+.comment {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.add-comment-button {
+  align-self: flex-end; /* המיקום ימוקם לצד ימין של התגובה */
+  margin-top: 5px; /* מרווח קטן מעל הכפתור */
+  cursor: pointer;
+  position: absolute;
+  top: 40vw;
 }

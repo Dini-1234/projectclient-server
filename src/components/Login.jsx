@@ -23,7 +23,7 @@ const Login = () => {
         if (foundUser) {
           localStorage.setItem('user', JSON.stringify(foundUser));
           setUser(foundUser);
-          navigate('/home');
+          navigate(`/users/${foundUser.id}/home`);
 
           setError('');
         } else {
@@ -41,9 +41,10 @@ const Login = () => {
 
   return (
     <>
-      <Link to="/home">
+      <Link to="/users/guest/home">
         <button className="nav-button">🏠</button>
-      </Link>      <div className='loginForm'>
+      </Link>    
+        <div className='loginForm'>
         <h2>Login</h2>
         <form onSubmit={handleLogin}>
           <div>
@@ -74,7 +75,7 @@ const Login = () => {
         </form>
         {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
         <div className="toSignUp">Don&apos;t have an account?
-          <Link to="/signUp"> Create an account</Link>
+          <Link to="/signup"> Create an account</Link>
         </div>
       </div>
     </>

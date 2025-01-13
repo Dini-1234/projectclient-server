@@ -29,6 +29,8 @@ const Post = ({ post, setPosts, setSelectedPost }) => {
                                     setMyItem={setPosts}
                                     id={post.id}
                                     type="posts"
+                                    dependents={{son:"comments",father:"post"}}
+
                                 />
                             </div>
                             <div onClick={() => setIsEditing(true)}>✏️</div>

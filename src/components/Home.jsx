@@ -5,7 +5,7 @@ const Home = () => {
   const { user } = useContext(UserContext);
 
   return (
-    <div>
+    <div className='userName'>
       <h5>Hello {user ? user.name : "Guest user"}!!!</h5>
     </div>
   );
