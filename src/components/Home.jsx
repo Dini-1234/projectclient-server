@@ -6,7 +6,7 @@ const Home = () => {
 
   return (
     <div className='userName'>
-      <h5>Hello {user ? user.name : "Guest user"}!!!</h5>
+      <h5>Hello {user ? user.name : "Guest user"}!</h5>
     </div>
   );
 };

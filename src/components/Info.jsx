@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useContext } from 'react';
 import { UserContext } from './context';
-import '../css/info.css'; // ייבוא ה-CSS
+import '../css/info.css';
 
 function Info() {
     const { user } = useContext(UserContext);
@@ -9,7 +9,7 @@ function Info() {
     const navigate = useNavigate();
 
     const handleEdit = () => {
-        navigate('/editInfo', { state: { bool:"edit" } });
+        navigate(`/users/${user.id}/editInfo`, { state: { bool: "edit" } });
     };
 
     return (

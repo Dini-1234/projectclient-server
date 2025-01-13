@@ -17,21 +17,24 @@
   overflow: hidden;
   cursor: pointer;
   color: black;
-  background-image: url('../pictures/folder.png'); /* תמונת רקע */
+  background-image: url('../pictures/folder.png');
+  /* תמונת רקע */
   background-size: cover;
   background-position: center;
-  height: 200px; /* הגדרת גובה קבוע */
+  height: 200px;
+  /* הגדרת גובה קבוע */
 }
 
 /* טקסט בתוך האלבום (הכותרת צמודה לתחתית האלבום) */
-.album p {
+.albumText {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   font-size: 18px;
   color: white;
-  background-color: rgba(0, 0, 0, 0.5); /* רקע כהה לכותרת */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* רקע כהה לכותרת */
   padding: 10px;
   text-align: center;
   margin: 0;
@@ -50,7 +53,8 @@
 }
 
 .album:hover::after {
-  opacity: 1; /* הצגת טקסט CLICK TO VIEW בריחוף */
+  opacity: 1;
+  /* הצגת טקסט CLICK TO VIEW בריחוף */
 }
 
 /* עיצוב בריחוף לכפתור 'CLICK TO VIEW' */

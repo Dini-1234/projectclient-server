@@ -8,8 +8,8 @@ function Comments({ postId }) {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
-  const [isEditing, setIsEditing] = useState(null); // Set to null initially to not edit any comment
-  const [editedComment, setEditedComment] = useState(null); // Holds the comment being edited
+  const [isEditing, setIsEditing] = useState(null);
+  const [editedComment, setEditedComment] = useState(null);
 
   useEffect(() => {
     fetchComments();
@@ -19,9 +19,7 @@ function Comments({ postId }) {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        `http://localhost:3012/comments?postId=${postId}`
-      );
+      const response = await fetch(`http://localhost:3012/comments?postId=${postId}`);
       const data = await response.json();
       setComments(data);
     } catch (error) {
@@ -38,7 +36,6 @@ function Comments({ postId }) {
 
   return (
     <div>
-      <h3>Comments:</h3>
       <div className="add-comment-button">
         <AddItem
           fields={[{ name: "body", inputType: "textArea" }]}

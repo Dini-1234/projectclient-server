@@ -33,7 +33,6 @@ const Posts = () => {
     }
   };
 
-
   return (
     <div className={`postsElements ${isModalOpen ? 'modal-open' : ''}`}>
       <input
@@ -43,9 +42,11 @@ const Posts = () => {
         onChange={(e) => setSearch(e.target.value)}
         style={{ padding: '5px', marginBottom: '10px' }}
       />
+
       <button onClick={() => setSearch("")}>
         Clear search
       </button>
+
       {user && <button
         onClick={() => setViewMyPosts(prev => !prev)}
         style={{
@@ -53,7 +54,6 @@ const Posts = () => {
           color: viewMyPosts ? 'white' : ''
         }}
       >
-
         {viewMyPosts ? 'view all posts' : 'view my posts'}
       </button>}
       {user && <AddItem fields={postFields} initialObject={initialObject} type="posts" setData={setPosts} />}      <div className="container">

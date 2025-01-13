@@ -6,7 +6,7 @@ const Delete = (props) => {
 
     const deleteItem = async (itemId) => {
         try {
-            if (props.dependents.son) {
+            if (props.dependents) {
                 const response = await fetch(
                     `http://localhost:3012/${props.dependents.son}?${props.dependents.father}Id=${itemId}`
                 );
@@ -40,7 +40,7 @@ const Delete = (props) => {
     };
 
     const handleDeleteClick = () => {
-        if (props.dependents.son) {
+        if (props?.dependents?.son) {
             setShowConfirmation(true);
         } else {
             deleteItem(props.id);
@@ -59,10 +59,10 @@ const Delete = (props) => {
         <div>
             <span onClick={handleDeleteClick}>🗑️</span>
             {showConfirmation && (
-                <div className="confirmation-dialog">
-                    <p>לפריט זה יש בנים. האם אתה בטוח שברצונך למחוק?</p>
-                    <button onClick={handleConfirmDelete}>אישור</button>
-                    <button onClick={handleCancelDelete}>ביטול</button>
+                <div className="confirmation-dialog">-
+                    <p>{`This ${props?.dependents?.father} has ${props?.dependents?.son}. Are you sure you want to delete?`}</p>
+                    <button onClick={handleConfirmDelete}>Yes</button>
+                    <button onClick={handleCancelDelete}>No</button>
                 </div>
             )}
         </div>

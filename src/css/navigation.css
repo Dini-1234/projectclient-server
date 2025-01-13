@@ -28,15 +28,19 @@
 .nav-button:active {
     transform: scale(0.95);
 }
+
 .notification:active {
     transform: scale(0.95);
 }
+
 a {
     text-decoration: none;
 }
+
 .nav-button.pink {
     background-color: #ff6b6b;
 }
+
 .notification {
     position: fixed;
     bottom: 200px;

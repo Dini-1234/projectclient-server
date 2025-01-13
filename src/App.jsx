@@ -7,7 +7,6 @@ import Todos from './components/Todos';
 import Posts from './components/Posts';
 import Albums from './components/Albums';
 import Navigation from './components/Navigation';
-import Post from './components/Post';
 import Photos from './components/Photos';
 import SignUp from './components/SignUp';
 import EditInfo from './components/EditInfo';
@@ -32,11 +31,11 @@ const App = () => {
       <Router>
         <Navigation />
         <Routes>
-
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/editInfoNewUser" element={<EditInfo />} />
+
           <Route path="/users/:userId/home" element={<Home />} />
           <Route path="/users/guest/home" element={<Home />} />
 

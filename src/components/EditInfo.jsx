@@ -38,9 +38,10 @@ function EditInfo() {
             }));
         }
     };
+
     const handleCancel = () => {
         setUserDetails(contextUser);
-        navigate('/home');
+        navigate(`/users/${userDetails.id}/info`);
     };
 
     const handleSubmit = async (e) => {
@@ -63,7 +64,7 @@ function EditInfo() {
             if (response.ok) {
                 const data = await response.json();
                 setUser(data);
-                navigate(`/users/${userDetails.id}/home`);
+                navigate(`/users/${userDetails.id}/info`);
             } else {
                 alert('Failed to save user details.');
             }

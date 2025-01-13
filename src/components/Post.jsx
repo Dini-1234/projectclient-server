@@ -8,9 +8,11 @@ const Post = ({ post, setPosts, setSelectedPost }) => {
     const { user } = useContext(UserContext);
     const [isEditing, setIsEditing] = useState(false);
     const [showComments, setShowComments] = useState(false);
+
     useEffect(() => {
         setShowComments(false)
     }, [post])
+
     const fields = [
         { name: "title", inputType: "text" },
         { name: "body", inputType: "textArea" }
@@ -24,13 +26,15 @@ const Post = ({ post, setPosts, setSelectedPost }) => {
                     <p>{post.body}</p>
                     {post.userId === user?.id && (
                         <div >
-                            <div onClick={() => setSelectedPost(null)}>
+                            <div>
                                 <Delete
-                                    setMyItem={setPosts}
+                                    setMyItem={(item) => {
+                                        setPosts(item);
+                                        setSelectedPost(null)
+                                    }}
                                     id={post.id}
                                     type="posts"
-                                    dependents={{son:"comments",father:"post"}}
-
+                                    dependents={{ son: "comments", father: "post" }}
                                 />
                             </div>
                             <div onClick={() => setIsEditing(true)}>✏️</div>

@@ -34,14 +34,14 @@ const EditItem = ({ item, fields, type, setData, setIsEditing, setView = (x) => 
 
       );
       setView(updatedItem)
-      setIsEditing(null); // Exit editing mode
+      setIsEditing(null);
     } catch (error) {
       console.error("Error updating item:", error);
     }
   };
 
   const handleCancel = () => {
-    setIsEditing(null); // Exit editing mode
+    setIsEditing(null);
   };
 
   return (
@@ -67,6 +67,7 @@ const EditItem = ({ item, fields, type, setData, setIsEditing, setView = (x) => 
           )}
         </div>
       ))}
+
       <div className="form-actions">
         <button type="submit" className="submit-button">
           Save

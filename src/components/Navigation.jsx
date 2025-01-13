@@ -64,9 +64,7 @@ const Navigation = () => {
                         </Link>
                     </>
                 }
-                {/* <Link to={`/users/${user ? user.id : ''}/info`} onClick={handleRestrictedAccess}>
-                    <button className="nav-button">Info</button>
-                </Link> */}
+
                 <div className='userName'>Hello {user ? user.name : "Guest user"}!</div>
             </nav>
 

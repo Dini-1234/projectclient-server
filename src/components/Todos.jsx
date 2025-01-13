@@ -4,6 +4,7 @@ import Delete from './Delete';
 import { UserContext } from './context';
 import '../css/todos.css'
 import EditItem from './EditItem';
+
 const Todos = () => {
   const { user } = useContext(UserContext);
   const [myTodos, setMyTodos] = useState([]);
@@ -12,7 +13,6 @@ const Todos = () => {
   const [sortField, setSortField] = useState('title');
   const [sortOrder, setSortOrder] = useState('asc');
   const [isEditing, setIsEditing] = useState(null);
-
   const fields = [{ name: "title", inputType: "text" }];
   const initialObject = { userId: user.id, completed: false };
 
@@ -28,8 +28,6 @@ const Todos = () => {
         setLoading(false);
       });
   }, [user.id]);
-
-
 
   const handleCheckboxChange = (taskId) => {
     setMyTodos(prev => {
@@ -64,9 +62,11 @@ const Todos = () => {
       }
     });
   };
+
   if (loading) {
     return <div>Loading...</div>;
   }
+
   return (
     <div>
       <AddItem fields={fields} initialObject={initialObject} setData={setMyTodos} type="todos" />

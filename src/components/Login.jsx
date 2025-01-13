@@ -37,14 +37,12 @@ const Login = () => {
     }
   };
 
-
-
   return (
     <>
       <Link to="/users/guest/home">
         <button className="nav-button">🏠</button>
-      </Link>    
-        <div className='loginForm'>
+      </Link>
+      <div className='loginForm'>
         <h2>Login</h2>
         <form onSubmit={handleLogin}>
           <div>
@@ -81,4 +79,5 @@ const Login = () => {
     </>
   );
 };
+
 export default Login;

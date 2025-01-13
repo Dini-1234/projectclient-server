@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from './context';
-import '../css/album.css';
 import { Link } from 'react-router-dom';
 import AddItem from './AddItem';
 import Delete from './Delete';
+import '../css/album.css';
 
 const Albums = () => {
   const [loading, setLoading] = useState(false);
@@ -42,27 +41,30 @@ const Albums = () => {
         onChange={(e) => setSearch(e.target.value)}
         style={{ padding: '5px', marginBottom: '10px' }}
       />
+
       <button onClick={() => setSearch("")}>
         Clear search
       </button>
+
       <AddItem fields={fields} initialObject={initialObject} setData={setAlbums} type={"albums"} />
+
       <div className="albums-grid">
         {albums.filter(album =>
           album.title.toLowerCase().includes(search.toLowerCase()) ||
           album.id.toString().includes(search)
         ).map((album, index) => (
           <>
-            <Link to={`/users/${user.id}/albums/${album.id}`} key={album.id} state={{ album }}>
-              <div className="album">
-                <p>{index + 1}. {album.title}</p>
-              </div>
-            </Link>
-            <Delete
-              setMyItem={setAlbums}
-              id={album.id}
-              type="albums"
-              dependents={{son:"photos",father:"album"}}
-            />
+            <div className="album">
+              <Link to={`/users/${user.id}/albums/${album.id}`} key={album.id} state={{ album }}>
+                <p className='albumText'>{album.id + 1}. {album.title}</p>
+              </Link>
+              <Delete
+                setMyItem={setAlbums}
+                id={album.id}
+                type="albums"
+                dependents={{ son: "photos", father: "album" }}
+              />
+            </div>
           </>
         ))}
       </div>

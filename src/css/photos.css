@@ -15,16 +15,14 @@
   position: relative;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-/* עיצוב התמונה בתוך האלמנט */
 .photo-img {
-  width: 100%;
-  height: auto;
   transition: transform 0.3s ease;
-  cursor: auto;
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
 }
 
 /* הכותרת של כל תמונה */
@@ -152,4 +150,11 @@ button:hover {
 .userName,
 .albumName {
   color: rgb(237, 230, 230);
+}
+
+.backToAlbums {
+  position: fixed;
+  margin-left: -45em;
+  z-index: 10;
+  margin-right: 200em;
 }

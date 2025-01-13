@@ -4,20 +4,19 @@ import "../css/addItem.css";
 const AddItem = ({ fields, initialObject, type, setData }) => {
   const [formData, setFormData] = useState(initialObject);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
-    setErrorMessage(""); // Clear error message on input change
+    setErrorMessage("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if any field is empty
     const hasEmptyFields = fields.some(({ name }) => !formData[name]?.trim());
     if (hasEmptyFields) {
       setErrorMessage("Please fill out all fields.");
@@ -40,7 +39,7 @@ const AddItem = ({ fields, initialObject, type, setData }) => {
       const newItem = await response.json();
       setData((prev) => [newItem, ...prev]);
       setIsOpenModal(false);
-      setFormData(initialObject); // Reset form fields
+      setFormData({});
     } catch (error) {
       setErrorMessage("An error occurred. Please try again.");
     }
@@ -48,8 +47,8 @@ const AddItem = ({ fields, initialObject, type, setData }) => {
 
   const handleCancel = () => {
     setIsOpenModal(false);
-    setFormData(initialObject); // Reset form fields
-    setErrorMessage(""); // Clear error message
+    setFormData({});
+    setErrorMessage("");
   };
 
   return (
@@ -83,9 +82,11 @@ const AddItem = ({ fields, initialObject, type, setData }) => {
                   )}
                 </div>
               ))}
+
               {errorMessage && (
                 <p className="error-message">{errorMessage}</p>
               )}
+
               <div className="form-actions">
                 <button type="submit" className="submit-button">
                   Submit

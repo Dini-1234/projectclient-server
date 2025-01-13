@@ -29,14 +29,16 @@ body {
 .posts-list .post {
   margin: 5px 0;
   padding: 10px;
-  background-color: #8a8889; /* ורוד בהיר */
+  background-color: #8a8889;
+  /* ורוד בהיר */
   border-radius: 5px;
   cursor: pointer;
   transition: transform 0.2s, background-color 0.2s;
 }
 
 .posts-list .post:hover {
-  background-color: #c2b7bc; /* ורוד כהה יותר */
+  background-color: #c2b7bc;
+  /* ורוד כהה יותר */
   transform: scale(1.02);
 }
 
@@ -111,7 +113,8 @@ textarea:focus {
 }
 
 .postsElements.modal-open {
-  overflow: hidden; /* נעילת גלילה */
+  overflow: hidden;
+  /* נעילת גלילה */
 }
 
 .add-post-btn {
@@ -157,7 +160,8 @@ textarea:focus {
   text-align: center;
 }
 
-.modal input, .modal textarea {
+.modal input,
+.modal textarea {
   width: 100%;
   margin-bottom: 10px;
   padding: 10px;
@@ -238,12 +242,13 @@ textarea:focus {
   cursor: pointer;
 }
 
-.comment{
+.comment {
   border-radius: 15px;
   margin: 1em;
   background-color: #eae4e4;
   padding: 2px;
 }
+
 .comment {
   display: flex;
   flex-direction: column;
@@ -251,8 +256,10 @@ textarea:focus {
 }
 
 .add-comment-button {
-  align-self: flex-end; /* המיקום ימוקם לצד ימין של התגובה */
-  margin-top: 5px; /* מרווח קטן מעל הכפתור */
+  align-self: flex-end;
+  /* המיקום ימוקם לצד ימין של התגובה */
+  margin-top: 5px;
+  /* מרווח קטן מעל הכפתור */
   cursor: pointer;
   position: absolute;
   top: 40vw;

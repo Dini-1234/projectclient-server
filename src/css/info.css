@@ -2,10 +2,11 @@
     margin: 0 auto;
     max-width: 600px;
     padding: 20px;
-    /* border: 1px solid #ccc; */
+    color: rgb(212, 210, 210);
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    background-color: rgba(220, 220, 220, 0.3); /* צבע אפור בהיר עם שקיפות */
+    background-color: rgba(220, 220, 220, 0.3);
+    /* צבע אפור בהיר עם שקיפות */
     text-align: left;
     font-size: 1.2rem;
     line-height: 1.6;
