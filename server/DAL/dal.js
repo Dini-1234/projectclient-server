@@ -1,4 +1,4 @@
-const pool = require('../db.js);'); 
+const pool = require('../db.js'); 
 
 const genericPost = async (collectionName, data) => {
   const keys = Object.keys(data);

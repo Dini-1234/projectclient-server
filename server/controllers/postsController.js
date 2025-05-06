@@ -18,7 +18,16 @@ const getPosts = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
+const getAllPosts = async (req, res) => {
+    try {
+      const post = await postsBL.getAllPosts(req.params.id);
+      if (!post) return res.status(404).send('no posts found');
+      res.json(post);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+  
 const editPosts = async (req, res) => {
   try {
     const updatedPost = await postsBL.editPost(req.params.id, req.body);
@@ -37,4 +46,4 @@ const deletePosts = async (req, res) => {
   }
 };
 
-module.exports = { addPosts, getPosts, editPosts, deletePosts };
+module.exports = { addPosts, getPosts, editPosts, deletePosts,getAllPosts };

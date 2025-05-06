@@ -4,13 +4,15 @@ const cors = require('cors');
 app.use(cors());
 const db = require('./db.js'); 
 require('dotenv').config(); 
+console.log('המשתנה PORT:', process.env.PORT); // הוסיפי שורה זו
 app.use(express.json());
+require('./cleanupService'); // הוסיפי שורה זו בתחילת server.js
 
 
-const postsRoutes = require('./routes/postsRoutes');
-const todosRoutes = require('./routes/todosRoutes');
-const commentsRoutes = require('./routes/commentsRoutes');
-const usersRoutes = require('./routes/usersRoutes');
+const postsRoutes = require('./routes/postsRouter');
+const todosRoutes = require('./routes/todosRouter');
+const commentsRoutes = require('./routes/commentsRouter');
+const usersRoutes = require('./routes/usersRouter');
 
 app.use('/api/posts', postsRoutes);
 app.use('/api/todos', todosRoutes);
