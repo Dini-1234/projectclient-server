@@ -1,7 +1,7 @@
 const dal = require('../DAL/dal');
 
 const addUser = async (data) => {
-  return await dal.genericPost('users', data);
+  return await dal.createUser('users', data);
 };
 
 const getUserById = async (id) => {

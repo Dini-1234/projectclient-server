@@ -2,11 +2,13 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 app.use(cors());
-const db = require('./db.js'); 
 require('dotenv').config(); 
+
+const db = require('./db.js'); 
 console.log('המשתנה PORT:', process.env.PORT); // הוסיפי שורה זו
 app.use(express.json());
-require('./cleanupService'); // הוסיפי שורה זו בתחילת server.js
+// require('./cleanupService'); // הוסיפי שורה זו בתחילת server.js
+console.log("hi from server.js");
 
 
 const postsRoutes = require('./routes/postsRouter');

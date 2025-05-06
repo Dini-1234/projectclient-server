@@ -20,6 +20,8 @@ const getPosts = async (req, res) => {
 };
 const getAllPosts = async (req, res) => {
     try {
+        console.log("hi from controller.js");
+
       const post = await postsBL.getAllPosts(req.params.id);
       if (!post) return res.status(404).send('no posts found');
       res.json(post);
