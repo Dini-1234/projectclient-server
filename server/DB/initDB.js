@@ -1,20 +1,20 @@
 // db/initDB.js
 
 require('dotenv').config();
-const pool = require('./db'); // מניח שה-pool שלך מיובא מהקובץ שכתבת קודם
+const pool = require('./db');
 
 async function createTables() {
   const connection = await pool.getConnection();
   try {
     await connection.beginTransaction();
 
-    // אפשרות: מחיקת טבלאות אם קיימות
+    // מחיקת טבלאות קיימות
     const dropTables = `
       DROP TABLE IF EXISTS comments, posts, tasks, credentials, companies, addresses, users;
     `;
     await connection.query(dropTables);
 
-    // יצירת טבלת users
+    // טבלת users
     await connection.query(`
       CREATE TABLE users (
         id INT PRIMARY KEY,
@@ -69,6 +69,7 @@ async function createTables() {
         user_id INT,
         title VARCHAR(255),
         body TEXT,
+        is_deleted BOOLEAN DEFAULT FALSE,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
       );
     `);
@@ -81,6 +82,7 @@ async function createTables() {
         name VARCHAR(100),
         email VARCHAR(100),
         body TEXT,
+        is_deleted BOOLEAN DEFAULT FALSE,
         FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
       );
     `);
@@ -92,6 +94,7 @@ async function createTables() {
         user_id INT,
         title VARCHAR(255),
         completed BOOLEAN,
+        is_deleted BOOLEAN DEFAULT FALSE,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
       );
     `);
@@ -108,4 +111,3 @@ async function createTables() {
 
 createTables();
 await pool.end();
-
