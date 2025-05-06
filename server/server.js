@@ -2,25 +2,20 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 app.use(cors());
-const db = require('./DB/db.js'); // נתיב לקובץ חיבור
-
-require('dotenv').config(); // טוען את .env
-
-// מאפשר קבלת בקשות JSON
+const db = require('./db.js'); 
+require('dotenv').config(); 
 app.use(express.json());
 
-const initDatabase = require('..DB/initDb');
-initDatabase(); 
-// דוגמה לנתיב GET
-app.get('/', (req, res) => {
-  res.send('השרת פועל!');
-});
 
-// דוגמה לנתיב POST
-app.post('/api/data', (req, res) => {
-  console.log('קיבלתי:', req.body);
-  res.json({ message: 'קיבלתי את המידע!' });
-});
+const postsRoutes = require('./routes/postsRoutes');
+const todosRoutes = require('./routes/todosRoutes');
+const commentsRoutes = require('./routes/commentsRoutes');
+const usersRoutes = require('./routes/usersRoutes');
+
+app.use('/api/posts', postsRoutes);
+app.use('/api/todos', todosRoutes);
+app.use('/api/comments', commentsRoutes);
+app.use('/api/users', usersRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`השרת מאזין על http://localhost:${5000}`);
