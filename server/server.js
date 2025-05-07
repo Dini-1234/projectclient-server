@@ -1,26 +1,34 @@
+// server.js
+
 const express = require('express');
-const app = express();
 const cors = require('cors');
+require('dotenv').config();
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middlewares
 app.use(cors());
-require('dotenv').config(); 
-
-const db = require('./db.js'); 
-console.log('המשתנה PORT:', process.env.PORT); // הוסיפי שורה זו
 app.use(express.json());
-// require('./cleanupService'); // הוסיפי שורה זו בתחילת server.js
-console.log("hi from server.js");
 
+// Routes
+const postsRouter = require('./routes/postsRouter');
+const todosRouter = require('./routes/todosRouter');
+const commentsRouter = require('./routes/commentsRouter');
+const usersRouter = require('./routes/usersRouter');
 
-const postsRoutes = require('./routes/postsRouter');
-const todosRoutes = require('./routes/todosRouter');
-const commentsRoutes = require('./routes/commentsRouter');
-const usersRoutes = require('./routes/usersRouter');
+// Base Route
+app.get('/', (req, res) => {
+  res.send('Welcome to the API!');
+});
 
-app.use('/api/posts', postsRoutes);
-app.use('/api/todos', todosRoutes);
-app.use('/api/comments', commentsRoutes);
-app.use('/api/users', usersRoutes);
+// Routes
+app.use('/api/posts', postsRouter);
+app.use('/api/todos', todosRouter);
+app.use('/api/comments', commentsRouter);
+app.use('/api/users', usersRouter);
 
-app.listen(process.env.PORT, () => {
-  console.log(`השרת מאזין על http://localhost:${5000}`);
+// Start the server
+app.listen(PORT, () => {
+  console.log(`The server is running on http://localhost:${PORT}`);
 });

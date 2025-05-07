@@ -1,14 +1,12 @@
 const jwt = require('jsonwebtoken');
-
-
-
-
-
 const usersBL = require('../BL/usersBL');
 
 const addUser = async (req, res) => {
   try {
-    const user = await usersBL.addUser(req.body);
+    console.log(req.body);
+    const userData = req.body;
+    const passwordHash = userData.password; 
+    const user = await usersBL.addUser(userData, passwordHash);
     res.status(201).json(user);
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -20,9 +20,9 @@ async function createDatabaseAndConnect() {
   try {
     // מתחברים בלי לציין database, כדי ליצור אותו
     const tempConnection = await mysql.createConnection({
-      host: process.env.DB_HOST||'localhost',
-      user: process.env.DB_USER||'root',
-      password: process.env.DB_PASSWORD||'Dini327855318',
+      host: process.env.DB_HOST || 'localhost',
+      user: process.env.DB_USER || 'root',
+      password: process.env.DB_PASSWORD || 'Dini327855318',
     });
 
     await tempConnection.query(`CREATE DATABASE IF NOT EXISTS ${dbName}`);
@@ -54,12 +54,12 @@ async function createTables() {
 
     const createUsers = `
       CREATE TABLE users (
-        id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(100),
         username VARCHAR(50) UNIQUE,
         email VARCHAR(100),
         phone VARCHAR(50),
-        website VARCHAR(100)
+        password VARCHAR(100)
       );
     `;
 

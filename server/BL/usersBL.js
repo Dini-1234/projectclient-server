@@ -1,7 +1,7 @@
 const dal = require('../DAL/dal');
 
-const addUser = async (data) => {
-  return await dal.createUser('users', data);
+const addUser = async (user, passwordHash) => {
+  return await dal.createUser(user, passwordHash);
 };
 
 const getUserById = async (id) => {

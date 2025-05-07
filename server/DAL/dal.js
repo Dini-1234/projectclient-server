@@ -92,69 +92,71 @@ const genericDeleteWithCascade = async (collectionName, id, caseCode) => {
   }
 };
 const createUser = async (user, passwordHash) => {
-    const conn = await pool.getConnection();
-    try {
+  const conn = await pool.getConnection();
+  try {
       await conn.beginTransaction();
-  
+
       // users
       const insertUserSQL = `
-        INSERT INTO users (id, name, username, email, phone, website)
-        VALUES (?, ?, ?, ?, ?, ?)
+          INSERT INTO users (name, username, email, phone, password)
+          VALUES (?, ?, ?, ?, ?)
       `;
       await conn.query(insertUserSQL, [
-        user.id,
-        user.name,
-        user.username,
-        user.email,
-        user.phone,
-        user.website
+          user.name,
+          user.username,
+          user.email,
+          user.phone,
+          user.password
       ]);
-  
+
+      // קבלת ה-ID שנוצר עבור המשתמש
+      const [rows] = await conn.query('SELECT LAST_INSERT_ID() AS user_id');
+      const userId = rows[0].user_id;
+
       // addresses
       const insertAddressSQL = `
-        INSERT INTO addresses (user_id, street, suite, city, zipcode, lat, lng)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+          INSERT INTO addresses (user_id, street, suite, city, zipcode, lat, lng)
+          VALUES (?, ?, ?, ?, ?, ?, ?)
       `;
       await conn.query(insertAddressSQL, [
-        user.id,
-        user.address.street,
-        user.address.suite,
-        user.address.city,
-        user.address.zipcode,
-        user.address.geo.lat,
-        user.address.geo.lng
+          userId,  // השתמש ב-userId שנמצא
+          user.address.street,
+          user.address.suite,
+          user.address.city,
+          user.address.zipcode,
+          user.address.geo.lat,
+          user.address.geo.lng
       ]);
-  
-      // companies
-       const insertCompanySQL = `
-  INSERT INTO companies (user_id, \`name\`, catch_phrase, bs)
-  VALUES (?, ?, ?, ?)
-`;
 
-      
+      // companies
+      const insertCompanySQL = `
+          INSERT INTO companies (user_id, \`name\`, catch_phrase, bs)
+          VALUES (?, ?, ?, ?)
+      `;
       await conn.query(insertCompanySQL, [
-        user.id,
-        user.company.name,
-        user.company.catchPhrase,
-        user.company.bs
+          userId,  // השתמש ב-userId שנמצא
+          user.company.name,
+          user.company.catchPhrase,
+          user.company.bs
       ]);
-  
+
       // credentials
       const insertCredentialsSQL = `
-        INSERT INTO credentials (user_id, password_hash)
-        VALUES (?, ?)
+          INSERT INTO credentials (user_id, password_hash)
+          VALUES (?, ?)
       `;
-      await conn.query(insertCredentialsSQL, [user.id, passwordHash]);
-  
+      await conn.query(insertCredentialsSQL, [userId, passwordHash]);
+
       await conn.commit();
       return { success: true };
-    } catch (error) {
+  } catch (error) {
       await conn.rollback();
       throw error;
-    } finally {
+  } finally {
       conn.release();
-    }
-  };
+  }
+};
+
   
 
 module.exports = {
