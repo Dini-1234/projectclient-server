@@ -4,8 +4,8 @@ const addComment = async (data) => {
   return await dal.genericPost('comments', data);
 };
 
-const getCommentById = async (id) => {
-  return await dal.genericGetById('comments', id);
+const getCommentsByPostId = async (id) => {
+  return await dal.getCommentsByPostId('comments', id);
 };
 
 const editComment = async (id, data) => {
@@ -16,4 +16,4 @@ const deleteComment = async (id) => {
   return await dal.genericDelete('comments', id);
 };
 
-module.exports = { addComment, getCommentById, editComment, deleteComment };
+module.exports = { addComment, getCommentsByPostId, editComment, deleteComment };

@@ -59,7 +59,8 @@ async function createTables() {
         username VARCHAR(50) UNIQUE,
         email VARCHAR(100),
         phone VARCHAR(50),
-        password VARCHAR(100)
+        password VARCHAR(100),
+        is_deleted BOOLEAN DEFAULT FALSE
       );
     `;
 
@@ -98,7 +99,7 @@ async function createTables() {
 
     const createPosts = `
       CREATE TABLE posts (
-        id INT PRIMARY KEY,
+        id INT PRIMARY KEY AUTO_INCREMENT,
         user_id INT,
         title VARCHAR(255),
         body TEXT,
@@ -109,7 +110,7 @@ async function createTables() {
 
     const createComments = `
       CREATE TABLE comments (
-        id INT PRIMARY KEY,
+        id INT PRIMARY KEY AUTO_INCREMENT,
         post_id INT,
         name VARCHAR(100),
         email VARCHAR(100),
@@ -121,7 +122,7 @@ async function createTables() {
 
     const createTasks = `
       CREATE TABLE tasks (
-        id INT PRIMARY KEY,
+        id INT PRIMARY KEY AUTO_INCREMENT,
         user_id INT,
         title VARCHAR(255),
         completed BOOLEAN,

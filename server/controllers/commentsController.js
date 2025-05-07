@@ -11,7 +11,7 @@ const addComments = async (req, res) => {
 
 const getComments = async (req, res) => {
   try {
-    const comment = await commentsBL.getCommentById(req.params.id);
+    const comment = await commentsBL.getCommentsByPostId(req.params.postId);
     if (!comment) return res.status(404).send('Comment not found');
     res.json(comment);
   } catch (err) {

@@ -19,6 +19,15 @@ const genericGetById = async (collectionName, id) => {
   const [rows] = await pool.query(sql, [id]);
   return rows[0] || null;
 };
+const getCommentsByPostId = async (collectionName, postId) => {
+  const sql = `
+    SELECT * FROM \`${collectionName}\`
+    WHERE post_id = ? AND (is_deleted IS NULL OR is_deleted = FALSE)
+  `;
+  const [rows] = await pool.query(sql, [postId]);
+  return rows;
+};
+
 
 const genericUpdate = async (collectionName, id, data) => {
   const keys = Object.keys(data);
@@ -167,6 +176,7 @@ module.exports = {
   genericGetAll,
   genericGetByForeignKey,
   genericDeleteWithCascade,
-  createUser
+  createUser,
+  getCommentsByPostId
 };
 
