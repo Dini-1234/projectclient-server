@@ -16,7 +16,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3012/users?username=${userLogin.name}&website=${userLogin.password}`);
+      const response = await fetch(`http://localhost:3000/api/users?username=${userLogin.name}&website=${userLogin.password}`);
       const data = await response.json();
       if (data.length > 0) {
         const foundUser = data[0];

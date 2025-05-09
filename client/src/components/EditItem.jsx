@@ -14,7 +14,7 @@ const EditItem = ({ item, fields, type, setData, setIsEditing, setView = (x) => 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3012/${type}/${item.id}`, {
+      const response = await fetch(`http://localhost:3000/api/${type}/${item.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

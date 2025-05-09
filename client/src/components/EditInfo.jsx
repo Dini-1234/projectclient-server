@@ -47,14 +47,7 @@ function EditInfo() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = bool === "edit" ? await fetch(`http://localhost:3012/users/${contextUser.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userDetails)
-            }) :
-                await fetch(`http://localhost:3012/users/`, {
+            const response = await fetch(`http://localhost:3000/users/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

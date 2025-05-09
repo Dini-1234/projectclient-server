@@ -23,7 +23,7 @@ const Posts = () => {
     if (loading) return;
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3012/posts`);
+      const response = await fetch(`http://localhost:3000/api/posts`);
       const data = await response.json();
       setPosts(data);
     } catch (error) {

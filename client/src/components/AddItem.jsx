@@ -24,7 +24,7 @@ const AddItem = ({ fields, initialObject, type, setData }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3012/${type}`, {
+      const response = await fetch(`http://localhost:3000/${type}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

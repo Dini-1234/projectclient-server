@@ -20,7 +20,7 @@ function SignUp() {
         }
 
         try {
-            const response = await fetch(`http://localhost:3012/users?username=${name}`);
+            const response = await fetch(`http://localhost:3000/api/users?username=${name}`);
             const data = await response.json();
 
             if (data.length > 0) {

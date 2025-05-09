@@ -3,28 +3,10 @@ import '../css/delete.css'
 
 const Delete = (props) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
-
     const deleteItem = async (itemId) => {
         try {
-            if (props.dependents) {
-                const response = await fetch(
-                    `http://localhost:3012/${props.dependents.son}?${props.dependents.father}Id=${itemId}`
-                );
-                const dependents = await response.json();
 
-                await Promise.all(
-                    dependents.map(dependent =>
-                        fetch(`http://localhost:3012/${props.dependents.son}/${dependent.id}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                        })
-                    )
-                );
-            }
-
-            await fetch(`http://localhost:3012/${props.type}/${itemId}`, {
+            await fetch(`http://localhost:3000/${props.type}/${itemId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
