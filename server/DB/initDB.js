@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { faker } from '@faker-js/faker';
+import mysql from 'mysql2/promise';
 
 // קוד שמאפשר שימוש ב__dirname ב-ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -9,9 +11,6 @@ const __dirname = path.dirname(__filename);
 // טוענים את הקובץ .env מתוך התיקיה הראשית
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 console.log('DB_USER:', process.env.DB_USER);
-
-import mysql from 'mysql2/promise';
-
 const dbName = 'project3DB'; // ← השם של בסיס הנתונים שלך
 
 let connection; // משתנה גלובלי
@@ -64,30 +63,7 @@ async function createTables() {
       );
     `;
 
-    const createAddresses = `
-      CREATE TABLE addresses (
-        user_id INT,
-        street VARCHAR(100),
-        suite VARCHAR(50),
-        city VARCHAR(50),
-        zipcode VARCHAR(20),
-        lat VARCHAR(20),
-        lng VARCHAR(20),
-        PRIMARY KEY (user_id),
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-      );
-    `;
 
-    const createCompanies = `
-      CREATE TABLE companies (
-        user_id INT,
-        name VARCHAR(100),
-        catch_phrase VARCHAR(255),
-        bs VARCHAR(100),
-        PRIMARY KEY (user_id),
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-      );
-    `;
 
     const createCredentials = `
       CREATE TABLE credentials (
@@ -131,7 +107,7 @@ async function createTables() {
       );
     `;
 
-    const fullSQL = dropTables + createUsers + createAddresses + createCompanies + createCredentials + createPosts + createComments + createTasks;
+    const fullSQL = dropTables + createUsers + createCredentials + createPosts + createComments + createTasks;
 
     await connection.query(fullSQL);
     await connection.commit();
@@ -148,9 +124,95 @@ async function createTables() {
   }
 }
 
+
+
+async function seedData() {
+  const connection = await mysql.createConnection({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: dbName,
+  });
+
+  try {
+    console.log('🔄 Seeding started...');
+    await connection.beginTransaction();
+
+    const userIds = [];
+
+    // יצירת משתמשים + סיסמאות
+    for (let i = 0; i < 5; i++) {
+      const name = faker.person.fullName();
+      const username = faker.internet.userName();
+      const email = faker.internet.email();
+      const phone = faker.phone.number();
+      const password = faker.internet.password();
+      const password_hash = faker.string.alphanumeric(60); // אפשר לשלב עם bcrypt בעתיד
+
+      const [userResult] = await connection.query(
+        `INSERT INTO users (name, username, email, phone, password) VALUES (?, ?, ?, ?, ?)`,
+        [name, username, email, phone, password]
+      );
+
+      const userId = userResult.insertId;
+      userIds.push(userId);
+
+      await connection.query(
+        `INSERT INTO credentials (user_id, password_hash) VALUES (?, ?)`,
+        [userId, password_hash]
+      );
+
+      // יצירת פוסטים
+      for (let j = 0; j < 5; j++) {
+        const title = faker.lorem.sentence();
+        const body = faker.lorem.paragraphs(2);
+
+        const [postResult] = await connection.query(
+          `INSERT INTO posts (user_id, title, body) VALUES (?, ?, ?)`,
+          [userId, title, body]
+        );
+        // ✅ יצירת משימות
+        for (let m = 0; m < 5; m++) {
+          const taskTitle = faker.lorem.sentence();
+          const completed = faker.datatype.boolean();
+
+          await connection.query(
+            `INSERT INTO tasks (user_id, title, completed) VALUES (?, ?, ?)`,
+            [userId, taskTitle, completed]
+          );
+        }
+        const postId = postResult.insertId;
+
+        // יצירת הערות – המגיבים נבחרים רנדומלית מתוך המשתמשים הקיימים
+        for (let k = 0; k < 3; k++) {
+          const commenterName = faker.person.fullName();
+          const commenterEmail = faker.internet.email();
+          const commentBody = faker.lorem.sentences(2);
+
+          await connection.query(
+            `INSERT INTO comments (post_id, name, email, body) VALUES (?, ?, ?, ?)`,
+            [postId, commenterName, commenterEmail, commentBody]
+          );
+        }
+      }
+    }
+
+    await connection.commit();
+    console.log('✅ Dummy data seeded successfully.');
+  } catch (err) {
+    await connection.rollback();
+    console.error('❌ Seeding failed:', err);
+  } finally {
+    await connection.end();
+  }
+}
+
+
+
 async function main() {
   await createDatabaseAndConnect();
   await createTables();
+  await seedData();
 }
 
 main();
