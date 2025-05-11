@@ -1,13 +1,40 @@
 const jwt = require('jsonwebtoken');
 const usersBL = require('../BL/usersBL');
+const bcrypt = require('bcrypt');
 
 const addUser = async (req, res) => {
   try {
     console.log(req.body);
-    const userData = req.body;
-    const passwordHash = userData.password; 
-    const user = await usersBL.addUser(userData, passwordHash);
+    const { password, ...userData } = req.body; // הוצאנו את הסיסמה
+    const hashedPassword = await bcrypt.hash(password, 10); // גיבוב הסיסמה
+    const user = await usersBL.addUser(userData, hashedPassword);
     res.status(201).json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const login = async (req, res) => {
+  console.log("Login function called");
+
+  try {
+    const { username, password } = req.body;
+    const user = await usersBL.getUserByUsername(username);
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const credentials = await usersBL.getCredentialsByUserId(user.id);
+    if (!credentials) return res.status(403).json({ message: 'No credentials found' });
+    console.log(password, credentials.password_hash)
+    // השוואת הסיסמה שהוזנה לאחר גיבוב עם הסיסמה השמורה בבסיס הנתונים
+    const isPasswordCorrect = await bcrypt.compare(password, credentials.password_hash);
+    console.log(hashedPassword, credentials.password_hash)
+
+    if (!isPasswordCorrect) {
+      return res.status(401).json({ message: 'Incorrect password' });
+    }
+
+    res.json(user); // אם הכל תקין, מחזירים את המשתמש
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -42,4 +69,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { addUser, getUser, editUser, deleteUser };
+module.exports = { addUser, getUser, editUser, deleteUser, login };

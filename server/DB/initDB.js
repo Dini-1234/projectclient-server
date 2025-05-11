@@ -58,7 +58,6 @@ async function createTables() {
         username VARCHAR(50) UNIQUE,
         email VARCHAR(100),
         phone VARCHAR(50),
-        password VARCHAR(100),
         is_deleted BOOLEAN DEFAULT FALSE
       );
     `;
@@ -146,12 +145,11 @@ async function seedData() {
       const username = faker.internet.userName();
       const email = faker.internet.email();
       const phone = faker.phone.number();
-      const password = faker.internet.password();
       const password_hash = faker.string.alphanumeric(60); // אפשר לשלב עם bcrypt בעתיד
 
       const [userResult] = await connection.query(
-        `INSERT INTO users (name, username, email, phone, password) VALUES (?, ?, ?, ?, ?)`,
-        [name, username, email, phone, password]
+        `INSERT INTO users (name, username, email, phone) VALUES (?, ?, ?, ?)`,
+        [name, username, email, phone]
       );
 
       const userId = userResult.insertId;

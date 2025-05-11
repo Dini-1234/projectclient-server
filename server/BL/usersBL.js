@@ -15,6 +15,20 @@ const editUser = async (id, data) => {
 const deleteUser = async (id) => {
   return await dal.genericDelete('users', id);
 };
+const getUserByUsername = async (username) => {
+  return await dal.getUserByUsername(username);
+};
 
-module.exports = { addUser, getUserById, editUser, deleteUser };
+const getCredentialsByUserId = async (userId) => {
+  return await dal.getCredentialsByUserId(userId);
+};
+
+
+module.exports = { 
+  addUser,
+  getUserById,
+  editUser,
+  deleteUser,
+  getUserByUsername,
+  getCredentialsByUserId};
 

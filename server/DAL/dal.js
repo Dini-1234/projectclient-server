@@ -1,3 +1,4 @@
+const { ko } = require('@faker-js/faker');
 const pool = require('../db.js'); 
 
 const genericPost = async (collectionName, data) => {
@@ -107,15 +108,14 @@ const createUser = async (user, passwordHash) => {
 
       // users
       const insertUserSQL = `
-          INSERT INTO users (name, username, email, phone, password)
-          VALUES (?, ?, ?, ?, ?)
+          INSERT INTO users (name, username, email, phone)
+          VALUES (?, ?, ?, ?)
       `;
       await conn.query(insertUserSQL, [
           user.name,
           user.username,
           user.email,
-          user.phone,
-          user.password
+          user.phone
       ]);
 
       // קבלת ה-ID שנוצר עבור המשתמש
@@ -132,7 +132,8 @@ const createUser = async (user, passwordHash) => {
       await conn.query(insertCredentialsSQL, [userId, passwordHash]);
 
       await conn.commit();
-      return { success: true };
+      console.log(userId);
+      return { success: true,id:userId };
   } catch (error) {
       await conn.rollback();
       throw error;
@@ -140,8 +141,17 @@ const createUser = async (user, passwordHash) => {
       conn.release();
   }
 };
+const getUserByUsername = async (username) => {
+  const sql = 'SELECT * FROM users WHERE username = ?';
+  const [rows] = await pool.query(sql, [username]);
+  return rows[0]; 
+}
+const getCredentialsByUserId = async (userId) => {
+  const sql = 'SELECT * FROM credentials WHERE user_id = ?';
+  const [rows] = await pool.query(sql, [userId]);
+  return rows[0]; 
+};
 
-  
 
 module.exports = {
   genericPost,
@@ -152,6 +162,8 @@ module.exports = {
   genericGetByForeignKey,
   genericDeleteWithCascade,
   createUser,
-  getCommentsByPostId
+  getCommentsByPostId,
+  getUserByUsername,
+  getCredentialsByUserId
 };
 

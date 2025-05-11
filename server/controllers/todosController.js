@@ -11,7 +11,7 @@ const addTodos = async (req, res) => {
 
 const getTodos = async (req, res) => {
   try {
-    const todo = await todosBL.getTodoById(req.params.id);
+    const todo = await todosBL.getTodoById(req.query.id);
     if (!todo) return res.status(404).send('Todo not found');
     res.json(todo);
   } catch (err) {
@@ -21,7 +21,7 @@ const getTodos = async (req, res) => {
 
 const editTodos = async (req, res) => {
   try {
-    const updatedTodo = await todosBL.editTodo(req.params.id, req.body);
+    const updatedTodo = await todosBL.editTodo(req.query.id, req.body);
     res.json(updatedTodo);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -30,7 +30,7 @@ const editTodos = async (req, res) => {
 
 const deleteTodos = async (req, res) => {
   try {
-    await todosBL.deleteTodo(req.params.id);
+    await todosBL.deleteTodo(req.query.id);
     res.sendStatus(204);
   } catch (err) {
     res.status(500).json({ message: err.message });
