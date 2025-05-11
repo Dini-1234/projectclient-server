@@ -6,7 +6,7 @@ const Delete = (props) => {
     const deleteItem = async (itemId) => {
         try {
 
-            await fetch(`http://localhost:3000/${props.type}/${itemId}`, {
+            await fetch(`http://localhost:3000/api/${props.type}/${itemId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

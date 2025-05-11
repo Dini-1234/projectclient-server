@@ -47,7 +47,7 @@ function EditInfo() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:3000/users/`, {
+            const response = await fetch(`http://localhost:3000/api/users/`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
