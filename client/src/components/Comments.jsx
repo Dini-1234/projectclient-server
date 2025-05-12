@@ -4,7 +4,7 @@ import Delete from "./Delete";
 import AddItem from "./AddItem";
 import EditItem from "./EditItem";
 
-function Comments({ postId }) {
+function Comments({ post_id }) {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
@@ -13,13 +13,13 @@ function Comments({ postId }) {
 
   useEffect(() => {
     fetchComments();
-  }, [postId]);
+  }, [post_id]);
 
   const fetchComments = async () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:3000/api/comments?postId=${postId}`);
+      const response = await fetch(`http://localhost:3000/api/comments?postId=${post_id}`);
       const data = await response.json();
       setComments(data);
     } catch (error) {
@@ -39,7 +39,7 @@ function Comments({ postId }) {
       <div className="add-comment-button">
         <AddItem
           fields={[{ name: "body", inputType: "textArea" }]}
-          initialObject={{ postId, body: "", email: user?.email || "unknown" }}
+          initialObject={{ post_id, body: "", email: user?.email || "unknown" }}
           type="comments"
           setData={setComments}
         />

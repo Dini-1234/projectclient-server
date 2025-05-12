@@ -55,7 +55,7 @@ const Post = ({ post, setPosts, setSelectedPost }) => {
             <button onClick={() => setShowComments(!showComments)}>
                 {showComments ? "Hide comments" : "View comments"}
             </button>
-            {showComments && <Comments postId={post.id} />}
+            {showComments && <Comments post_id={post.id} />}
         </div>
     );
 };
