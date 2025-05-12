@@ -9,12 +9,11 @@ const Todos = () => {
   const { user } = useContext(UserContext);
   const [myTodos, setMyTodos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
   const [sortField, setSortField] = useState('title');
   const [sortOrder, setSortOrder] = useState('asc');
   const [isEditing, setIsEditing] = useState(null);
   const fields = [{ name: "title", inputType: "text" }];
-  const initialObject = { userId: user.id, completed: false };
+  const initialObject = { user_id: user.id, completed: false };
 
   useEffect(() => {
     fetch(`http://localhost:3000/api/todos/${user.id}`)
@@ -75,16 +74,6 @@ const Todos = () => {
   return (
     <div>
       <AddItem fields={fields} initialObject={initialObject} setData={setMyTodos} type="todos" />
-      <input
-        type="text"
-        placeholder="search..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{ padding: '5px', marginBottom: '10px' }}
-      />
-      <button onClick={() => setSearch("")}>
-        Clear search
-      </button>
       <div className='todosList'>
         <select onChange={(e) => setSortField(e.target.value)} value={sortField}>
           <option value="title">Title</option>
@@ -99,12 +88,6 @@ const Todos = () => {
 
         <ul>
           {sortTodos(myTodos)
-            .filter(task =>
-              task.title.toLowerCase().includes(search.toLowerCase()) ||
-              task.id.toString().includes(search) ||
-              ("true".includes(search.toLowerCase()) && task.completed) ||
-              ("false".includes(search.toLowerCase()) && !task.completed)
-            )
             .map((task, index) => (
               <li key={task.id}>
                 <div className="task-actions">

@@ -3,6 +3,8 @@ const postsBL = require('../BL/postsBL');
 const addPosts = async (req, res) => {
   try {
     const post = await postsBL.addPost(req.body);
+    console.log("hi from here "+post);
+    
     res.status(201).json(post);
   } catch (err) {
     res.status(500).json({ message: err.message });

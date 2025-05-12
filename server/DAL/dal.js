@@ -2,15 +2,21 @@ const { ko } = require('@faker-js/faker');
 const pool = require('../db.js'); 
 
 const genericPost = async (collectionName, data) => {
-  const keys = Object.keys(data);
-  const values = Object.values(data);
-  const placeholders = keys.map(() => '?').join(', ');
-
-  const sql = `INSERT INTO \`${collectionName}\` (${keys.join(', ')}) VALUES (${placeholders})`;
-
-  const [result] = await pool.query(sql, values);
-  return result.insertId;
-};
+    const keys = Object.keys(data);
+    const values = Object.values(data);
+    const placeholders = keys.map(() => '?').join(', ');
+  
+    const sql = `INSERT INTO \`${collectionName}\` (${keys.join(', ')}) VALUES (${placeholders})`;
+  
+    const [result] = await pool.query(sql, values);
+    const insertedId = result.insertId;
+  
+    // החזרת כל הרשומה החדשה מהטבלה
+    const [rows] = await pool.query(`SELECT * FROM \`${collectionName}\` WHERE id = ?`, [insertedId]);
+  
+    return rows[0]; // מחזיר את הרשומה החדשה כולה
+  };
+  
 
 const genericGetById = async (collectionName, id) => {
   const sql = `

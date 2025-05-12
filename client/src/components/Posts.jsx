@@ -7,13 +7,12 @@ import AddItem from "./AddItem";
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState('');
   const { user } = useContext(UserContext);
   const [viewMyPosts, setViewMyPosts] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const postFields = [{ name: "title", inputType: "text" }, { name: "body", inputType: "textArea" }];
-  const initialObject = { userId: user?.id };
+  const initialObject = { user_id: user?.id };
 
   useEffect(() => {
     fetchPosts()
@@ -35,18 +34,6 @@ const Posts = () => {
 
   return (
     <div className={`postsElements ${isModalOpen ? 'modal-open' : ''}`}>
-      <input
-        type="text"
-        placeholder="search..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{ padding: '5px', marginBottom: '10px' }}
-      />
-
-      <button onClick={() => setSearch("")}>
-        Clear search
-      </button>
-
       {user && <button
         onClick={() => setViewMyPosts(prev => !prev)}
         style={{
@@ -58,18 +45,14 @@ const Posts = () => {
       </button>}
       {user && <AddItem fields={postFields} initialObject={initialObject} type="posts" setData={setPosts} />}      <div className="container">
         <div className="posts-list">
-          {posts.filter(post =>
-            ((
-              post.title.toLowerCase().includes(search.toLowerCase()) ||
-              post.id.toString().includes(search))) &&
-            (!viewMyPosts || post.userId === user?.id)
-          ).map(post => (
+          {posts
+          .map(post => (
             <div
               key={post.id}
               className="post"
               onClick={() => setSelectedPost(post)}
               style={{
-                backgroundColor: post.userId === user?.id ? 'pink' : ''
+                backgroundColor: post.user_id === user?.id ? 'pink' : ''
               }}
             >
               <h3>{post.title}</h3>
@@ -79,7 +62,7 @@ const Posts = () => {
         </div>
 
         <div className="post-details">
-          {selectedPost && (!viewMyPosts || (selectedPost.userId === user.id)) ? (
+          {selectedPost && (!viewMyPosts || (selectedPost.user_id === user.id)) ? (
             <Post post={selectedPost} setPosts={setPosts} setSelectedPost={setSelectedPost} />
           ) : (
             <div className="no-post">Nothing to show here</div>

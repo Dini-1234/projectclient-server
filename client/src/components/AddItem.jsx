@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
+
 import "../css/addItem.css";
+import { UserContext } from "./context";
 
 const AddItem = ({ fields, initialObject, type, setData }) => {
   const [formData, setFormData] = useState(initialObject);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+    const { user } = useContext(UserContext);
+  
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({
@@ -24,6 +28,9 @@ const AddItem = ({ fields, initialObject, type, setData }) => {
     }
 
     try {
+      console.log("type", type);
+      console.log("Form data sent to server:", formData);
+
       const response = await fetch(`http://localhost:3000/api/${type}`, {
         method: "POST",
         headers: {
@@ -38,7 +45,10 @@ const AddItem = ({ fields, initialObject, type, setData }) => {
 
       const newItem = await response.json();
       setData((prev) => [newItem, ...prev]);
+      console.log("1");
+      
       setIsOpenModal(false);
+
       setFormData({});
     } catch (error) {
       setErrorMessage("An error occurred. Please try again.");
