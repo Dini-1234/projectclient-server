@@ -17,7 +17,7 @@ const Todos = () => {
   const initialObject = { userId: user.id, completed: false };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/todos?id=${user.id}`)
+    fetch(`http://localhost:3000/api/todos/${user.id}`)
       .then(response => response.json())
       .then(json => {
         setMyTodos(json);

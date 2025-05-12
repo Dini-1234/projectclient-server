@@ -6,7 +6,6 @@ import { UserContext } from './components/context';
 import Todos from './components/Todos';
 import Navigation from './components/Navigation';
 import SignUp from './components/SignUp';
-import EditInfo from './components/EditInfo';
 import Info from './components/Info';
 import Error from './components/Error';
 import Posts from './components/Posts';
@@ -32,7 +31,6 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
-          <Route path="/editInfoNewUser" element={<EditInfo />} />
           <Route path="/users/:userId/home" element={<Home />} />
           <Route path="/users/guest/home" element={<Home />} />
           <Route path="/users/guest/posts" element={<Posts />} />

@@ -5,6 +5,6 @@ const {editComments,addComments,getComments,deleteComments} = require('../contro
 router.put('/:id', editComments);
 router.get('/', getComments);
 router.delete('/:id', deleteComments);
-router.post('/', addComments); // רק למי שיש טוקן
+router.post('/', addComments); 
 
 module.exports = router;

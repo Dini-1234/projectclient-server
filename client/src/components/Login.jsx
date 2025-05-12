@@ -32,7 +32,6 @@ const Login = () => {
       const data = await response.json();
   
       if (response.ok) {
-        localStorage.setItem('user', JSON.stringify(data));
         setUser(data);
         navigate(`/users/${data.id}/home`);
         setError('');

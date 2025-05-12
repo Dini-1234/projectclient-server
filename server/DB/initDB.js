@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { faker } from '@faker-js/faker';
 import mysql from 'mysql2/promise';
+import bcrypt from 'bcrypt';
 
 // קוד שמאפשר שימוש ב__dirname ב-ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -124,7 +125,6 @@ async function createTables() {
 }
 
 
-
 async function seedData() {
   const connection = await mysql.createConnection({
     host: process.env.DB_HOST || 'localhost',
@@ -139,13 +139,17 @@ async function seedData() {
 
     const userIds = [];
 
-    // יצירת משתמשים + סיסמאות
     for (let i = 0; i < 5; i++) {
       const name = faker.person.fullName();
       const username = faker.internet.userName();
       const email = faker.internet.email();
       const phone = faker.phone.number();
-      const password_hash = faker.string.alphanumeric(60); // אפשר לשלב עם bcrypt בעתיד
+      const rawPassword = faker.internet.password();
+      console.log(rawPassword+ " rawPassword "+username+" username "+email+" email "+phone+" phone ");
+      
+      const password_hash = await bcrypt.hash(rawPassword, 10);
+
+      console.log(`👤 Creating user ${i + 1}: ${username}, password: ${rawPassword}`);
 
       const [userResult] = await connection.query(
         `INSERT INTO users (name, username, email, phone) VALUES (?, ?, ?, ?)`,
@@ -160,7 +164,6 @@ async function seedData() {
         [userId, password_hash]
       );
 
-      // יצירת פוסטים
       for (let j = 0; j < 5; j++) {
         const title = faker.lorem.sentence();
         const body = faker.lorem.paragraphs(2);
@@ -169,7 +172,7 @@ async function seedData() {
           `INSERT INTO posts (user_id, title, body) VALUES (?, ?, ?)`,
           [userId, title, body]
         );
-        // ✅ יצירת משימות
+
         for (let m = 0; m < 5; m++) {
           const taskTitle = faker.lorem.sentence();
           const completed = faker.datatype.boolean();
@@ -179,9 +182,9 @@ async function seedData() {
             [userId, taskTitle, completed]
           );
         }
+
         const postId = postResult.insertId;
 
-        // יצירת הערות – המגיבים נבחרים רנדומלית מתוך המשתמשים הקיימים
         for (let k = 0; k < 3; k++) {
           const commenterName = faker.person.fullName();
           const commenterEmail = faker.internet.email();
@@ -204,6 +207,7 @@ async function seedData() {
     await connection.end();
   }
 }
+
 
 
 

@@ -4,11 +4,11 @@ const addPost = async (data) => {
   return await dal.genericPost('posts', data);
 };
 
-const getPostById = async (id) => {
-  return await dal.genericGetById('posts', id);
+const getPostById = async (userId) => {
+  return await dal.genericGetByForeignKey('posts',user_id, userId);
 };
 
-const getAllPosts = async (id) => {
+const getAllPosts = async () => {
     return await dal.genericGetAll('posts');
   };
 const editPost = async (id, data) => {

@@ -8,9 +8,7 @@ function Info() {
 
     const navigate = useNavigate();
 
-    const handleEdit = () => {
-        navigate(`/users/${user.id}/editInfo`, { state: { bool: "edit" } });
-    };
+
 
     return (
         <div className="userInfo">
@@ -25,25 +23,11 @@ function Info() {
                 <strong>Email:</strong> {user.email}
             </div>
             <div>
-                <strong>Address:</strong>
-                <div>Street: {user.address?.street}</div>
-                <div>Suite: {user.address?.suite}</div>
-                <div>City: {user.address?.city}</div>
-                <div>Zipcode: {user.address?.zipcode}</div>
-            </div>
-            <div>
                 <strong>Phone:</strong> {user.phone}
             </div>
-            <div>
-                <strong>Website:</strong> {user.website}
-            </div>
-            <div>
-                <strong>Company:</strong> {user.company?.name}
-            </div>
-            <button onClick={handleEdit}>
-                Edit Information
-            </button>
+
         </div>
+
     );
 }
 

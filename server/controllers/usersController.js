@@ -26,9 +26,7 @@ const login = async (req, res) => {
     const credentials = await usersBL.getCredentialsByUserId(user.id);
     if (!credentials) return res.status(403).json({ message: 'No credentials found' });
     console.log(password, credentials.password_hash)
-    // השוואת הסיסמה שהוזנה לאחר גיבוב עם הסיסמה השמורה בבסיס הנתונים
     const isPasswordCorrect = await bcrypt.compare(password, credentials.password_hash);
-    console.log(hashedPassword, credentials.password_hash)
 
     if (!isPasswordCorrect) {
       return res.status(401).json({ message: 'Incorrect password' });

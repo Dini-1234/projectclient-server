@@ -10,7 +10,7 @@ const Navigation = () => {
     const [buttonColor, setButtonColor] = useState(false);
     const [message, setMessage] = useState('');
 
-    if (location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/editInfoNewUser') {
+    if (location.pathname === '/login' || location.pathname === '/signup' ) {
         return null;
     }
 

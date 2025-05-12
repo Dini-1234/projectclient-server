@@ -18,7 +18,7 @@ const genericGetById = async (collectionName, id) => {
     WHERE id = ? AND (is_deleted IS NULL OR is_deleted = FALSE)
   `;
   const [rows] = await pool.query(sql, [id]);
-  return rows[0] || null;
+  return rows[0] || [];
 };
 const getCommentsByPostId = async (collectionName, postId) => {
   const sql = `
@@ -26,7 +26,7 @@ const getCommentsByPostId = async (collectionName, postId) => {
     WHERE post_id = ? AND (is_deleted IS NULL OR is_deleted = FALSE)
   `;
   const [rows] = await pool.query(sql, [postId]);
-  return rows;
+  return rows||[];
 };
 
 
@@ -60,7 +60,7 @@ const genericGetAll = async (collectionName) => {
     WHERE is_deleted IS NULL OR is_deleted = FALSE
   `;
   const [rows] = await pool.query(sql);
-  return rows;
+  return rows||[];
 };
 
 const genericGetByForeignKey = async (collectionName, foreignKeyName, value) => {
@@ -69,7 +69,7 @@ const genericGetByForeignKey = async (collectionName, foreignKeyName, value) => 
     WHERE \`${foreignKeyName}\` = ? AND (is_deleted IS NULL OR is_deleted = FALSE)
   `;
   const [rows] = await pool.query(sql, [value]);
-  return rows;
+  return rows||[];
 };
 
 const genericDeleteWithCascade = async (collectionName, id, caseCode) => {
