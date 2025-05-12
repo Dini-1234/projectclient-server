@@ -17,7 +17,7 @@ const Todos = () => {
   const initialObject = { userId: user.id, completed: false };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/todos?userId=${user.id}`)
+    fetch(`http://localhost:3000/api/todos?id=${user.id}`)
       .then(response => response.json())
       .then(json => {
         setMyTodos(json);
@@ -50,6 +50,7 @@ const Todos = () => {
   };
 
   const sortTodos = (todos) => {
+    if (!Array.isArray(todos)) return [];
     return todos.sort((a, b) => {
       if (sortOrder === 'asc') {
         if (a[sortField] < b[sortField]) return -1;
@@ -66,7 +67,11 @@ const Todos = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
-
+  
+  if (myTodos.length === 0) {
+    return <div>No todos found.</div>;
+  }
+  
   return (
     <div>
       <AddItem fields={fields} initialObject={initialObject} setData={setMyTodos} type="todos" />

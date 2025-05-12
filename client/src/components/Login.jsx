@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { UserContext } from './context';
 import { Link, useNavigate } from 'react-router-dom';
 import '../css/login.css'
@@ -13,30 +13,37 @@ const Login = () => {
     navigate('/login', { replace: true });
   }, []);
 
+ 
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/api/users?username=${userLogin.name}&website=${userLogin.password}`);
+      console.log(userLogin);
+      
+      const response = await fetch('http://localhost:3000/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: userLogin.name,
+          password: userLogin.password
+        })
+      });
+  
       const data = await response.json();
-      if (data.length > 0) {
-        const foundUser = data[0];
-        if (foundUser) {
-          localStorage.setItem('user', JSON.stringify(foundUser));
-          setUser(foundUser);
-          navigate(`/users/${foundUser.id}/home`);
-
-          setError('');
-        } else {
-          setError('Wrong password');
-        }
+  
+      if (response.ok) {
+        localStorage.setItem('user', JSON.stringify(data));
+        setUser(data);
+        navigate(`/users/${data.id}/home`);
+        setError('');
       } else {
-        setError('Username not found');
+        setError(data.message || 'Login failed');
       }
     } catch (err) {
       setError('An error occurred while connecting');
     }
   };
-
+  
   return (
     <>
       <Link to="/users/guest/home">
