@@ -44,7 +44,7 @@ const editPosts = async (req, res) => {
 const deletePosts = async (req, res) => {
   try {
     await postsBL.deletePost(req.params.id);
-    res.sendStatus(204); // No Content
+    res.sendStatus(204); 
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

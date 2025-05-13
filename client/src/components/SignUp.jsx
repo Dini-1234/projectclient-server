@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../css/login.css';
 import { useContext } from 'react';
@@ -15,20 +15,18 @@ function SignUp() {
     });
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { user, setUser } = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
 
     const handleSignUp = async (e) => {
         e.preventDefault();
         const { name, username, email, phone, password, confirmPassword } = userSignUp;
 
-        // בדיקה אם הסיסמאות תואמות
         if (password !== confirmPassword) {
             setError('Passwords do not match');
             return;
         }
 
         try {
-            // שליחת הבקשה לשרת להירשם
             const response = await fetch(`http://localhost:3000/api/users/signUp`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -50,15 +48,15 @@ function SignUp() {
             
             if (data.success) {
                 alert('User created successfully!');
-                setUser(data);
-                console.log(data.id);
+                setUser(data.user);
+                console.log(data.user.id);
                 
                 navigate( `/users/${data.id}/home`, { state: { bool: "add" } });
             } else {
                 setError('Username already exists');
             }
         } catch (err) {
-            setError('An error occurred while connecting');
+            setError(`An error occurred while connecting ${err}`);
         }
     };
 

@@ -5,15 +5,14 @@ const bcrypt = require('bcrypt');
 const addUser = async (req, res) => {
   try {
     console.log(req.body);
-    const { password, ...userData } = req.body; // הוצאנו את הסיסמה
-    const hashedPassword = await bcrypt.hash(password, 10); // גיבוב הסיסמה
+    const { password, ...userData } = req.body; 
+    const hashedPassword = await bcrypt.hash(password, 10); 
     const user = await usersBL.addUser(userData, hashedPassword);
-    res.json(user); // אם הכל תקין, מחזירים את המשתמש
+    res.json(user); 
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-
 const login = async (req, res) => {
   console.log("Login function called");
 
@@ -32,12 +31,11 @@ const login = async (req, res) => {
       return res.status(401).json({ message: 'Incorrect password' });
     }
 
-    res.json(user); // אם הכל תקין, מחזירים את המשתמש
+    res.json(user); 
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-
 const getUser = async (req, res) => {
   try {
     const user = await usersBL.getUserById(req.params.id);
@@ -47,8 +45,6 @@ const getUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-
 const editUser = async (req, res) => {
   try {
     const updatedUser = await usersBL.editUser(req.params.id, req.body);
@@ -57,7 +53,6 @@ const editUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
 const deleteUser = async (req, res) => {
   try {
     await usersBL.deleteUser(req.params.id);

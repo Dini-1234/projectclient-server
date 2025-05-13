@@ -40,7 +40,7 @@ const Post = ({ post, setPosts, setSelectedPost }) => {
                                     dependents={{ son: "comments", father: "post" }}
                                 />
                             </div>
-                            <div onClick={() => setIsEditing(true)}>✏️</div>
+                            <button onClick={() => setIsEditing(true)}>✏️</button>
                         </div>
                     )}
                 </>

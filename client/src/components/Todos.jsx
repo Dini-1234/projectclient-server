@@ -94,7 +94,7 @@ const Todos = () => {
                   {isEditing === task.id ? (
                     <EditItem
                       item={task}
-                      fields={[{ name: "title", inputType: "text" }]} // Define fields dynamically
+                      fields={[{ name: "title", inputType: "text" }]} 
                       type="todos"
                       setData={setMyTodos}
                       setIsEditing={setIsEditing}

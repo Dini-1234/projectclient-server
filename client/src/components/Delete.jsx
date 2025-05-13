@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import '../css/delete.css'
 
 const Delete = (props) => {
-    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [ setShowConfirmation] = useState(false);
     const deleteItem = async (itemId) => {
         try {
 
@@ -22,32 +22,11 @@ const Delete = (props) => {
         }
     };
 
-    const handleDeleteClick = () => {
-        if (props?.dependents?.son) {
-            setShowConfirmation(true);
-        } else {
-            deleteItem(props.id);
-        }
-    };
-
-    const handleConfirmDelete = () => {
-        deleteItem(props.id);
-    };
-
-    const handleCancelDelete = () => {
-        setShowConfirmation(false);
-    };
-
+    console.log(props?.dependents);
+    
     return (
         <div>
-            <span onClick={handleDeleteClick}>🗑️</span>
-            {showConfirmation && (
-                <div className="confirmation-dialog">-
-                    <p>{`This ${props?.dependents?.father} has ${props?.dependents?.son}. Are you sure you want to delete?`}</p>
-                    <button onClick={handleConfirmDelete}>Yes</button>
-                    <button onClick={handleCancelDelete}>No</button>
-                </div>
-            )}
+            <button onClick={() => deleteItem(props.id)}>🗑️</button>
         </div>
     );
 };
