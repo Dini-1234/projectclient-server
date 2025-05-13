@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import '../css/delete.css'
 
 const Delete = (props) => {
@@ -49,6 +50,15 @@ const Delete = (props) => {
             )}
         </div>
     );
+};
+Delete.propTypes = {
+    type: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    setMyItem: PropTypes.func.isRequired,
+    dependents: PropTypes.shape({
+        son: PropTypes.string,
+        father: PropTypes.string,
+    }),
 };
 
 export default Delete;

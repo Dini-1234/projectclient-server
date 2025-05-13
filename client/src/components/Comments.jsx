@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import PropTypes from "prop-types";
 import { UserContext } from "./context";
 import Delete from "./Delete";
 import AddItem from "./AddItem";
@@ -76,5 +77,8 @@ function Comments({ post_id }) {
     </div>
   );
 }
+Comments.propTypes = {
+  post_id: PropTypes.number.isRequired,
+};
 
 export default Comments;

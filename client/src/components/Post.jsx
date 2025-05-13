@@ -3,6 +3,7 @@ import { UserContext } from './context';
 import Delete from './Delete';
 import Comments from './Comments';
 import EditItem from './EditItem';
+import PropTypes from 'prop-types';
 
 const Post = ({ post, setPosts, setSelectedPost }) => {
     const { user } = useContext(UserContext);
@@ -60,6 +61,11 @@ const Post = ({ post, setPosts, setSelectedPost }) => {
             {showComments && <Comments post_id={post.id} />}
         </div>
     );
+};
+Post.propTypes = {
+    post: PropTypes.object.isRequired,
+    setPosts: PropTypes.func.isRequired,
+    setSelectedPost: PropTypes.func.isRequired,
 };
 
 export default Post;

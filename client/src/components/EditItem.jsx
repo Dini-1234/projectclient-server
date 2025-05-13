@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../css/editItem.css";
+import PropTypes from "prop-types";
 
 const EditItem = ({ item, fields, type, setData, setIsEditing, setView = (x) => { } }) => {
   const [formData, setFormData] = useState(item);
@@ -82,6 +83,19 @@ const EditItem = ({ item, fields, type, setData, setIsEditing, setView = (x) => 
       </div>
     </form>
   );
+};
+EditItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  fields: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      inputType: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  type: PropTypes.string.isRequired,
+  setData: PropTypes.func.isRequired,
+  setIsEditing: PropTypes.func.isRequired,
+  setView: PropTypes.func,
 };
 
 export default EditItem;
