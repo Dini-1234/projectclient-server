@@ -5,20 +5,17 @@ import { faker } from '@faker-js/faker';
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcrypt';
 
-// קוד שמאפשר שימוש ב__dirname ב-ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// טוענים את הקובץ .env מתוך התיקיה הראשית
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 console.log('DB_USER:', process.env.DB_USER);
-const dbName = 'project3DB'; // ← השם של בסיס הנתונים שלך
+const dbName = 'project3DB'; 
 
-let connection; // משתנה גלובלי
+let connection; 
 
 async function createDatabaseAndConnect() {
   try {
-    // מתחברים בלי לציין database, כדי ליצור אותו
     const tempConnection = await mysql.createConnection({
       host: process.env.DB_HOST || 'localhost',
       user: process.env.DB_USER || 'root',
@@ -29,18 +26,17 @@ async function createDatabaseAndConnect() {
     console.log(`✅ Database ${dbName} created or already exists.`);
     await tempConnection.end();
 
-    // מתחברים שוב - הפעם לבסיס הנתונים עצמו
     connection = await mysql.createConnection({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: dbName,
-      multipleStatements: true, // כדי להריץ כמה שאילתות ברצף
+      multipleStatements: true, 
     });
 
   } catch (err) {
     console.error('❌ Failed to create database:', err);
-    process.exit(1); // עצירה במקרה של שגיאה
+    process.exit(1); 
   }
 }
 

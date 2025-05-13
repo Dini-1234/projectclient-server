@@ -101,38 +101,6 @@ const genericDeleteWithCascade = async (collectionName, id, caseCode) => {
     connection.release();
   }
 };
-// const createUser = async (user, passwordHash) => {
-//   const conn = await pool.getConnection();
-//   try {
-//       await conn.beginTransaction();
-//       const insertUserSQL = `
-//           INSERT INTO users (name, username, email, phone)
-//           VALUES (?, ?, ?, ?)
-//       `;
-//       await conn.query(insertUserSQL, [
-//           user.name,
-//           user.username,
-//           user.email,
-//           user.phone
-//       ]);
-//       const [rows] = await conn.query('SELECT LAST_INSERT_ID() AS user_id');
-//       const userId = rows[0].user_id;
-//       const insertCredentialsSQL = `
-//           INSERT INTO credentials (user_id, password_hash)
-//           VALUES (?, ?)
-//       `;
-//       await conn.query(insertCredentialsSQL, [userId, passwordHash]);
-
-//       await conn.commit();
-//       console.log(userId);
-//       return { success: true,id:userId };
-//   } catch (error) {
-//       await conn.rollback();
-//       throw error;
-//   } finally {
-//       conn.release();
-//   }
-// };
 const createUser = async (user, passwordHash) => {
   const conn = await pool.getConnection();
   try {
@@ -157,8 +125,6 @@ const createUser = async (user, passwordHash) => {
       VALUES (?, ?)
     `;
     await conn.query(insertCredentialsSQL, [userId, passwordHash]);
-
-    // שליפה של כל האובייקט `users`
     const [userRows] = await conn.query(`
       SELECT * FROM users WHERE id = ?
     `, [userId]);
