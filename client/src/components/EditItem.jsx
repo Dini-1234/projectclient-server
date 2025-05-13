@@ -34,14 +34,14 @@ const EditItem = ({ item, fields, type, setData, setIsEditing, setView = (x) => 
 
       );
       setView(updatedItem)
-      setIsEditing(null);
+      setIsEditing(false);
     } catch (error) {
       console.error("Error updating item:", error);
     }
   };
 
   const handleCancel = () => {
-    setIsEditing(null);
+    setIsEditing(false);
   };
 
   return (

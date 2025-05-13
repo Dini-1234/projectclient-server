@@ -8,7 +8,7 @@ const addUser = async (req, res) => {
     const { password, ...userData } = req.body; // הוצאנו את הסיסמה
     const hashedPassword = await bcrypt.hash(password, 10); // גיבוב הסיסמה
     const user = await usersBL.addUser(userData, hashedPassword);
-    res.status(201).json(user);
+    res.json(user); // אם הכל תקין, מחזירים את המשתמש
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

@@ -2,21 +2,15 @@ const { ko } = require('@faker-js/faker');
 const pool = require('../db.js'); 
 
 const genericPost = async (collectionName, data) => {
-    const keys = Object.keys(data);
-    const values = Object.values(data);
-    const placeholders = keys.map(() => '?').join(', ');
-  
-    const sql = `INSERT INTO \`${collectionName}\` (${keys.join(', ')}) VALUES (${placeholders})`;
-  
-    const [result] = await pool.query(sql, values);
-    const insertedId = result.insertId;
-  
-    // החזרת כל הרשומה החדשה מהטבלה
-    const [rows] = await pool.query(`SELECT * FROM \`${collectionName}\` WHERE id = ?`, [insertedId]);
-  
-    return rows[0]; // מחזיר את הרשומה החדשה כולה
-  };
-  
+  const keys = Object.keys(data);
+  const values = Object.values(data);
+  const placeholders = keys.map(() => '?').join(', ');
+
+  const sql = `INSERT INTO \`${collectionName}\` (${keys.join(', ')}) VALUES (${placeholders})`;
+
+  const [result] = await pool.query(sql, values);
+  return result.insertId;
+};
 
 const genericGetById = async (collectionName, id) => {
   const sql = `
@@ -24,15 +18,16 @@ const genericGetById = async (collectionName, id) => {
     WHERE id = ? AND (is_deleted IS NULL OR is_deleted = FALSE)
   `;
   const [rows] = await pool.query(sql, [id]);
-  return rows[0] || [];
+  return rows[0] || null;
 };
+
 const getCommentsByPostId = async (collectionName, postId) => {
   const sql = `
     SELECT * FROM \`${collectionName}\`
     WHERE post_id = ? AND (is_deleted IS NULL OR is_deleted = FALSE)
   `;
   const [rows] = await pool.query(sql, [postId]);
-  return rows||[];
+  return rows;
 };
 
 
@@ -49,6 +44,27 @@ const genericUpdate = async (collectionName, id, data) => {
   const [result] = await pool.query(sql, [...values, id]);
   return result.affectedRows > 0;
 };
+// const genericUpdate = async (collectionName, id, data) => {
+//   const keys = Object.keys(data);
+//   const values = Object.values(data);
+//   const assignments = keys.map(key => `\`${key}\` = ?`).join(', ');
+
+//   const sql = `
+//     UPDATE \${collectionName}\
+//     SET ${assignments}
+//     WHERE id = ?
+//   `;
+
+//   const [result] = await pool.query(sql, [...values, id]);
+
+//   if (result.affectedRows > 0) {
+//     // מחזירים את הנתון המעודכן כולו
+//     const [rows] = await pool.query(SELECT * FROM `\`${collectionName}\` WHERE id = ?`, [id]);
+//     return rows[0];
+//   }
+
+//   return null; // אם לא עודכן כלום
+// };
 
 const genericDelete = async (collectionName, id) => {
   const sql = `
@@ -66,7 +82,7 @@ const genericGetAll = async (collectionName) => {
     WHERE is_deleted IS NULL OR is_deleted = FALSE
   `;
   const [rows] = await pool.query(sql);
-  return rows||[];
+  return rows;
 };
 
 const genericGetByForeignKey = async (collectionName, foreignKeyName, value) => {
@@ -75,7 +91,7 @@ const genericGetByForeignKey = async (collectionName, foreignKeyName, value) => 
     WHERE \`${foreignKeyName}\` = ? AND (is_deleted IS NULL OR is_deleted = FALSE)
   `;
   const [rows] = await pool.query(sql, [value]);
-  return rows||[];
+  return rows;
 };
 
 const genericDeleteWithCascade = async (collectionName, id, caseCode) => {

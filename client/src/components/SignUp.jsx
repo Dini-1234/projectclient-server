@@ -50,7 +50,7 @@ function SignUp() {
             
             if (data.success) {
                 alert('User created successfully!');
-                setUser({ username: name,id: data.id });
+                setUser(data);
                 console.log(data.id);
                 
                 navigate( `/users/${data.id}/home`, { state: { bool: "add" } });

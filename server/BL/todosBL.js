@@ -4,7 +4,6 @@ const addTodo = async (data) => {
   return await dal.genericPost('tasks', data);
 };
 
-// מחזיר את כל הטודואים לפי user_id
 const getTodosByUserId = async (userId) => {
   return await dal.genericGetByForeignKey('tasks', 'user_id', userId);
 };

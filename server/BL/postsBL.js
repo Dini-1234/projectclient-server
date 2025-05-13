@@ -5,7 +5,7 @@ const addPost = async (data) => {
 };
 
 const getPostById = async (userId) => {
-  return await dal.genericGetByForeignKey('posts',user_id, userId);
+  return await dal.genericGetByForeignKey('posts',"id", userId);
 };
 
 const getAllPosts = async () => {

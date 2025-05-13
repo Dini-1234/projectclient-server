@@ -8,10 +8,12 @@ const Post = ({ post, setPosts, setSelectedPost }) => {
     const { user } = useContext(UserContext);
     const [isEditing, setIsEditing] = useState(false);
     const [showComments, setShowComments] = useState(false);
+    console.log(user.id,"uutu");
 
     useEffect(() => {
         setShowComments(false)
     }, [post])
+    
 
     const fields = [
         { name: "title", inputType: "text" },
@@ -24,7 +26,7 @@ const Post = ({ post, setPosts, setSelectedPost }) => {
                 <>
                     <h4>{post.title}</h4>
                     <p>{post.body}</p>
-                    {post.userId === user?.id && (
+                    {post.user_id === user?.id && (
                         <div >
                             <div>
                                 <Delete
