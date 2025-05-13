@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext } from './context';
 import Delete from './Delete';
 import Comments from './Comments';

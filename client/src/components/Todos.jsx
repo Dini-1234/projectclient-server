@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import AddItem from './AddItem';
 import Delete from './Delete';
 import { UserContext } from './context';
@@ -88,7 +88,7 @@ const Todos = () => {
 
         <ul>
           {sortTodos(myTodos)
-            .map((task, index) => (
+            .map((task) => (
               <li key={task.id}>
                 <div className="task-actions">
                   {isEditing === task.id ? (

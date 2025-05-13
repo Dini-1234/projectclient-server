@@ -1,14 +1,12 @@
-import React, { useState, useContext } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 
 import "../css/addItem.css";
-import { UserContext } from "./context";
 
 const AddItem = ({ fields, initialObject, type, setData }) => {
   const [formData, setFormData] = useState(initialObject);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const { user } = useContext(UserContext);
   
 
   const handleChange = (field, value) => {
@@ -52,7 +50,7 @@ const AddItem = ({ fields, initialObject, type, setData }) => {
 
       setFormData({});
     } catch (error) {
-      setErrorMessage("An error occurred. Please try again.");
+      setErrorMessage(`An error occurred. Please try again.${error}`);
     }
   };
 

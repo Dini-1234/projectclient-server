@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import Post from "./Post";
 import '../css/posts.css';
 import { UserContext } from './context';
@@ -10,7 +10,7 @@ const Posts = () => {
   const { user } = useContext(UserContext);
   const [viewMyPosts, setViewMyPosts] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen] = useState(false);
   const postFields = [{ name: "title", inputType: "text" }, { name: "body", inputType: "textArea" }];
   const initialObject = { user_id: user?.id };
 

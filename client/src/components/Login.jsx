@@ -39,7 +39,7 @@ const Login = () => {
         setError(data.message || 'Login failed');
       }
     } catch (err) {
-      setError('An error occurred while connecting');
+      setError(`An error occurred while connecting${err}`);
     }
   };
   

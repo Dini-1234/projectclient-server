@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../css/editItem.css";
 import PropTypes from "prop-types";
 
-const EditItem = ({ item, fields, type, setData, setIsEditing, setView = (x) => { } }) => {
+const EditItem = ({ item, fields, type, setData, setIsEditing, setView = () => { } }) => {
   const [formData, setFormData] = useState(item);
 
   const handleChange = (field, value) => {

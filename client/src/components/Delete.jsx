@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import '../css/delete.css'
 
@@ -53,7 +53,7 @@ const Delete = (props) => {
 };
 Delete.propTypes = {
     type: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     setMyItem: PropTypes.func.isRequired,
     dependents: PropTypes.shape({
         son: PropTypes.string,
